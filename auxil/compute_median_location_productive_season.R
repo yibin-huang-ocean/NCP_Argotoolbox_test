@@ -36,14 +36,21 @@ compute_median_location_productive_season=function ( cycle=float_profile_data$cy
   new_year_PS_label= unique(   new_data_set$new_year_PS)
   
   productive_season_location= data.frame(new_year_PS=   new_year_PS_label  )
+  productive_season_location$longitude_median_PS_E=   NaN
+  productive_season_location$latitude_median_PS_N= NaN
+  
   i=1
   for (i in 1:length(    productive_season_location$new_year_PS)){
     
     productive_period<- subset(  new_data_set,  
                                  new_data_set$new_year_PS== productive_season_location$new_year_PS[i]  &
                                    new_data_set$season_label=="P")
-    productive_season_location$longitude_median_PS_E[i]=median(    productive_period$longitude)
-    productive_season_location$latitude_median_PS_N[i]=median(    productive_period$latitiude)
+    middle_index <- round(length(    productive_period$cycle)/2)
+    if(    middle_index>0){
+      productive_season_location$longitude_median_PS_E[i]=    productive_period$longitude[  middle_index]
+      productive_season_location$latitude_median_PS_N[i]= productive_period$latitiude[  middle_index]
+    }
+   
     
   }
   

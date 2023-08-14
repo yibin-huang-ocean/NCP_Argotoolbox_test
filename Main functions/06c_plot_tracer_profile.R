@@ -43,6 +43,11 @@ plot_tracer_profile =function(float_profile_data,
                          tracer_budget$integration_depth_m),
                      size=1)
   
+  fig=fig+ geom_point(data=tracer_budget,
+                     aes(tracer_budget$time,
+                         tracer_budget$integration_depth_m),
+                     size=1)
+  
   
   fig=fig+ geom_line(data=tracer_budget,
                      aes(tracer_budget$time,

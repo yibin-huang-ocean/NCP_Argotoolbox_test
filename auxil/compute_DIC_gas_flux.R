@@ -67,35 +67,9 @@ compute_DIC_gas_flux <- function ( cycle=cycle,
 
 
 
-###  Schmidt Number, For water of temperature range 0-30°C
-Schmidt=function(T,S ){
-  A = 2073.1;
-  B = 125.62;
-  C = 3.6276;
-  D = 0.043219;
-  Schmidt= A - (B*T)+(C*T^2)-(D*T^3);
-  Schmidt=  Schmidt/(S*3.14*10^(-3)+1)
-  return(  Schmidt)
-}
 
 
 
 
-
-
-
-point <- function (x,y,z){
-  k=data.frame(x=x,y=y)
-  fig= ggplot(k,aes(x,y))+geom_point(size=z)
-  #  fig= G_axix_size(fig,
-  #                  y_title_size=20,
-  #                 x_title_size=20,
-  #                text.y_size=20,
-  #               text.x_size=20,
-  #              x_name=expression (bold()),
-  #             y_name=expression ()
-  # )
-  print(fig)
-}
 
 

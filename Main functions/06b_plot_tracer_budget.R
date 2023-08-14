@@ -25,79 +25,32 @@ plot_tracer_budget=function(tracer_budget,
   fig=ggplot()
   fig=fig+geom_hline(yintercept = 0)
   
-  if (Model_setting_list$EP_term_computation==1){
-    
-    fig = fig + geom_ribbon ( data=tracer_budget, 
-                              aes(x=tracer_budget$time, 
-                                  ymin=tracer_budget$tracer_dt_mmol_m2_d1-tracer_budget$tracer_dt_error_mmol_m2_d1,
-                                  
-                                  ymax=tracer_budget$tracer_dt_mmol_m2_d1+tracer_budget$tracer_dt_error_mmol_m2_d1,
-                                  fill="Tracer change (salinity normalized)") ,alpha= 0.7,size=1)
-    
-    
-    fig=fig+ geom_line(data=tracer_budget,
-                       aes(tracer_budget$time,tracer_budget$tracer_dt_mmol_m2_d1,
-                           color="Tracer change (salinity normalized)"),size=  line_size)
-    
-    
-    fig = fig + geom_ribbon ( data=tracer_budget, 
-                              aes(x=tracer_budget$time, 
-                                  ymin=tracer_budget$tracer_background_dt_mmol_m2_d1,
-                                  
-                                  ymax=tracer_budget$tracer_background_dt_mmol_m2_d1,
-                                  fill="Background tracer change (salinity normalized)") ,alpha= 0.7,size=1)
-    
-    fig=fig+ geom_line(data=tracer_budget,
-                       aes(tracer_budget$time,
-                           tracer_budget$tracer_background_dt_mmol_m2_d1,
-                           color="Background tracer change (salinity normalized)"),size=  line_size)
-    
-    
-  }
   
-  if (Model_setting_list$EP_term_computation==2 |Model_setting_list$EP_term_computation==0){
-    fig = fig + geom_ribbon ( data=tracer_budget, 
-                              aes(x=tracer_budget$time, 
-                                  ymin=tracer_budget$EP_mmol_m2_d1-tracer_budget$EP_error_mmol_m2_d1,
-                                  
-                                  ymax=tracer_budget$EP_mmol_m2_d1+tracer_budget$EP_error_mmol_m2_d1,
-                                  fill="Evaporation and precipitation") ,alpha= 0.7,size=1)
+  # Add the vertical lines to sperate  the different growing year
+  if (Model_setting_list$background_correction==3 ){
     
-    fig=fig+ geom_line(data=tracer_budget,
-                       aes(tracer_budget$time,
-                           tracer_budget$EP_mmol_m2_d1,
-                           color="Evaporation and precipitation"),size=  line_size)
-    fig = fig + geom_ribbon ( data=tracer_budget, 
-                              aes(x=tracer_budget$time, 
-                                  ymin=tracer_budget$tracer_dt_mmol_m2_d1-tracer_budget$tracer_dt_error_mmol_m2_d1,
-                                  
-                                  ymax=tracer_budget$tracer_dt_mmol_m2_d1+tracer_budget$tracer_dt_error_mmol_m2_d1,
-                                  fill="Tracer change") ,alpha= 0.7,size=1)
-    
-    
-    fig=fig+ geom_line(data=tracer_budget,
-                       aes(tracer_budget$time,tracer_budget$tracer_dt_mmol_m2_d1,
-                           color="Tracer change"),size=  line_size)
-    
-    if (Model_setting_list$background_correction!=1){
-      fig = fig + geom_ribbon ( data=tracer_budget, 
-                                aes(x=tracer_budget$time, 
-                                    ymin=tracer_budget$tracer_background_dt_mmol_m2_d1,
-                                    
-                                    ymax=tracer_budget$tracer_background_dt_mmol_m2_d1,
-                                    fill="Tracer (background) change") ,alpha= 0.7,size=1)
+    # The float in the Northern Hemisphere
+    if (tracer_budget$latitude_N[1]>0){
       
-      fig=fig+ geom_line(data=tracer_budget,
-                         aes(tracer_budget$time,
-                             tracer_budget$tracer_background_dt_mmol_m2_d1,
-                             color="Tracer (background) change"),size=  line_size)
+      year_unique= unique(year(tracer_budget$time))
+      vertical_line_seperation <- as.Date(paste(year_unique,
+                                                1,1,sep="-"))
+      
+      fig=fig+geom_vline(xintercept =    vertical_line_seperation)
+      
+    } else{
+      
+      year_unique= unique(year(tracer_budget$time))
+      vertical_line_seperation <- as.Date(paste(year_unique,
+                                                8,1,sep="-"))
+      
+      fig=fig+geom_vline(xintercept =    vertical_line_seperation)
+      
     }
-
-  }
-
+    
+  } # Bracket for "if (Model_setting_list$background_correction==3"
   
   
- 
   
 
   fig = fig + geom_ribbon ( data=tracer_budget, 
@@ -112,9 +65,14 @@ plot_tracer_budget=function(tracer_budget,
                          tracer_budget$gas_mmol_m2_d1,
                          color="Gas exchange"),size=  line_size)
   
- 
+  if (show_cycle_dot==1){
+    fig=fig+ geom_point(data=tracer_budget,
+                        aes(tracer_budget$time,
+                            tracer_budget$gas_mmol_m2_d1,
+                            color="Gas exchange"),size=  dot_size)
+    
+  }
   
- 
 
 # Merge the physical transport terms --------------------------------------
 
@@ -144,7 +102,8 @@ plot_tracer_budget=function(tracer_budget,
                            tracer_budget$vertical_diffusion_mmol_m2_d1+   
                              tracer_budget$vertical_advection_mmol_m2_d1+
                              tracer_budget$entrainment_mmol_m2_d1,
-                           color="Vertical transport"),size=  line_size)
+                           color="Vertical transport"),
+                       size=  line_size)
     
     if (show_cycle_dot==1){
       
@@ -153,7 +112,8 @@ plot_tracer_budget=function(tracer_budget,
                              tracer_budget$vertical_diffusion_mmol_m2_d1+   
                                tracer_budget$vertical_advection_mmol_m2_d1+
                                tracer_budget$entrainment_mmol_m2_d1,
-                             color="Vertical transport"),size=0.5)
+                             color="Vertical transport"),
+                         size=dot_size)
       
     }
     
@@ -211,16 +171,16 @@ plot_tracer_budget=function(tracer_budget,
       fig=fig+ geom_point(data=tracer_budget,
                           aes(tracer_budget$time,
                               tracer_budget$vertical_diffusion_mmol_m2_d1,
-                              color="Vertical diffusion"),size=0.5)
+                              color="Vertical diffusion"),size=dot_size)
       fig=fig+ geom_point(data=tracer_budget,
                           aes(tracer_budget$time,
                               tracer_budget$vertical_advection_mmol_m2_d1,
-                              color="Vertical advection"),size=0.5)
+                              color="Vertical advection"),size=dot_size)
       
       fig=fig+ geom_point(data=tracer_budget,
                           aes(tracer_budget$time,
                               tracer_budget$entrainment_mmol_m2_d1,
-                              color="Entrainment"),size=0.5)
+                              color="Entrainment"),size=dot_size)
      
      
       
@@ -246,32 +206,131 @@ plot_tracer_budget=function(tracer_budget,
   
   
   if (   show_cycle_dot==1){
-    fig=fig+ geom_point(data=tracer_budget,
-                        aes(tracer_budget$time,
-                            tracer_budget$tracer_dt_mmol_m2_d1,
-                            color="Tracer change"),size=0.5)
-    fig=fig+ geom_point(data=tracer_budget,
-                        aes(tracer_budget$time,
-                            tracer_budget$gas_mmol_m2_d1,
-                            color="Gas exchange"),size=0.5)
-    fig=fig+ geom_point(data=tracer_budget,
-                        aes(tracer_budget$time,
-                            tracer_budget$EP_mmol_m2_d1,
-                            color="Evaporation and preciption"),size=0.5)
-    
-    
-    fig=fig+ geom_point(data=tracer_budget,
-                        aes(tracer_budget$time,
-                            tracer_budget$tracer_background_dt_mmol_m2_d1,
-                            color="Tracer (background) change"),size=0.5)
-    
-    
-    
+   
     fig=fig+ geom_point(data=tracer_budget,
                         aes(tracer_budget$time,
                             tracer_budget$Bio_mmol_m2_d1,
-                            color="Biology"),size=0.5)
+                            color="Biology"),size=dot_size)
   }
+  
+  
+  
+  if (Model_setting_list$EP_term_computation==1){
+    
+    fig = fig + geom_ribbon ( data=tracer_budget, 
+                              aes(x=tracer_budget$time, 
+                                  ymin=tracer_budget$tracer_dt_mmol_m2_d1-tracer_budget$tracer_dt_error_mmol_m2_d1,
+                                  
+                                  ymax=tracer_budget$tracer_dt_mmol_m2_d1+tracer_budget$tracer_dt_error_mmol_m2_d1,
+                                  fill="Tracer change (salinity normalized)") ,alpha= 0.7,size=1)
+    
+    
+    fig=fig+ geom_line(data=tracer_budget,
+                       aes(tracer_budget$time,tracer_budget$tracer_dt_mmol_m2_d1,
+                           color="Tracer change (salinity normalized)"),size=  line_size)
+    
+    
+    fig = fig + geom_ribbon ( data=tracer_budget, 
+                              aes(x=tracer_budget$time, 
+                                  ymin=tracer_budget$tracer_background_dt_mmol_m2_d1,
+                                  
+                                  ymax=tracer_budget$tracer_background_dt_mmol_m2_d1,
+                                  fill="Background tracer change (salinity normalized)") ,alpha= 0.7,size=1)
+    
+    fig=fig+ geom_line(data=tracer_budget,
+                       aes(tracer_budget$time,
+                           tracer_budget$tracer_background_dt_mmol_m2_d1,
+                           color="Background tracer change (salinity normalized)"),size=  line_size)
+    
+    if (show_cycle_dot==1){
+      
+      fig=fig+ geom_point(data=tracer_budget,
+                          aes(tracer_budget$time,
+                              tracer_budget$tracer_background_dt_mmol_m2_d1,
+                              color="Background tracer change (salinity normalized)"),
+                          size=  dot_size)
+      
+      fig=fig+ geom_point(data=tracer_budget,
+                          aes(tracer_budget$time,
+                              tracer_budget$tracer_dt_mmol_m2_d1,
+                              color="Tracer change (salinity normalized)"),
+                          size=  dot_size)
+      
+    }
+    
+  }
+  
+  
+  
+  
+  if (Model_setting_list$EP_term_computation==2 |Model_setting_list$EP_term_computation==0){
+    fig = fig + geom_ribbon ( data=tracer_budget, 
+                              aes(x=tracer_budget$time, 
+                                  ymin=tracer_budget$EP_mmol_m2_d1-tracer_budget$EP_error_mmol_m2_d1,
+                                  
+                                  ymax=tracer_budget$EP_mmol_m2_d1+tracer_budget$EP_error_mmol_m2_d1,
+                                  fill="Evaporation and precipitation") ,alpha= 0.7,size=1)
+    
+    fig=fig+ geom_line(data=tracer_budget,
+                       aes(tracer_budget$time,
+                           tracer_budget$EP_mmol_m2_d1,
+                           color="Evaporation and precipitation"),size=  line_size)
+    fig = fig + geom_ribbon ( data=tracer_budget, 
+                              aes(x=tracer_budget$time, 
+                                  ymin=tracer_budget$tracer_dt_mmol_m2_d1-tracer_budget$tracer_dt_error_mmol_m2_d1,
+                                  
+                                  ymax=tracer_budget$tracer_dt_mmol_m2_d1+tracer_budget$tracer_dt_error_mmol_m2_d1,
+                                  fill="Tracer change") ,
+                              alpha= 0.7,size=1)
+    
+    
+    fig=fig+ geom_line(data=tracer_budget,
+                       aes(tracer_budget$time,tracer_budget$tracer_dt_mmol_m2_d1,
+                           color="Tracer change"),
+                       size=  line_size)
+    
+    
+    if (show_cycle_dot==1){
+      fig=fig+ geom_point(data=tracer_budget,
+                          aes(tracer_budget$time,tracer_budget$tracer_dt_mmol_m2_d1,
+                              color="Tracer change"),
+                          size=  dot_size)
+      
+      fig=fig+ geom_point(data=tracer_budget,
+                          aes(tracer_budget$time,
+                              tracer_budget$EP_mmol_m2_d1,
+                              color="Evaporation and precipitation"),size=  dot_size)
+      
+    }
+    
+    
+    if (Model_setting_list$background_correction!=1){
+      fig = fig + geom_ribbon ( data=tracer_budget, 
+                                aes(x=tracer_budget$time, 
+                                    ymin=tracer_budget$tracer_background_dt_mmol_m2_d1,
+                                    
+                                    ymax=tracer_budget$tracer_background_dt_mmol_m2_d1,
+                                    fill="Tracer (background) change") ,alpha= 0.7,size=1)
+      
+      fig=fig+ geom_line(data=tracer_budget,
+                         aes(tracer_budget$time,
+                             tracer_budget$tracer_background_dt_mmol_m2_d1,
+                             color="Tracer (background) change"),size=  line_size)
+    }
+    
+    
+    if (show_cycle_dot==1){
+      fig=fig+ geom_point(data=tracer_budget,
+                          aes(tracer_budget$time,
+                              tracer_budget$tracer_background_dt_mmol_m2_d1,
+                              color="Tracer (background) change"),
+                          size=dot_size)
+    }
+  }
+  
+  
+  
+  
   
   
   fig=fig+guides(fill = guide_legend(), color = "none")
@@ -283,11 +342,7 @@ plot_tracer_budget=function(tracer_budget,
   fig=fig+theme (axis.text.x = element_text(size=12,colour = "black",face = "bold",family = "Times New Roman") ) #x坐标轴加粗
   fig=fig+labs (family="serif",x="")  
   fig=fig+labs (family="serif",y=expression (bold(mmol~m^-2~day^-1)) ) 
-  fig=fig+scale_fill_brewer(palette = "Set1")+
-    scale_color_brewer(palette = "Set1")
- 
-  
-  
+  fig
   
   return(fig)
   

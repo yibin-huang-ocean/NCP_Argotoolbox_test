@@ -2,60 +2,62 @@
 
 # 1. Tracer change; 2. vertical mixing 3. ekman pumping 4, Entrainment; 5. background tracer change
 compute_five_terms_tracer_budget <- function(  
-    cycle=float_profile_data$cycle,
-    date=float_profile_data$date,
-    longitude=float_profile_data$longitude_E,
-    longitude_median_PS=float_profile_data$longitude_median_PS_E,
-    latitude=float_profile_data$latitude_N,
-    latitude_median_PS=float_profile_data$latitude_median_PS_N,
-    temperature=float_profile_data$temperature_C,
-    temperature_background=float_profile_data$temperature_background_C,
-    temperature_background_reference_location=float_profile_data$temperature_background_reference_location_C,
-    salinity =float_profile_data$salinity,
-    salinity_background = float_profile_data$salinity_background,
-    salinity_background_reference_location= float_profile_data$salinity_background_reference_location,
-    tracer=float_profile_data$tracer_umol_kg,
-    tracer_background=float_profile_data$tracer_background_umol_kg,
-    tracer_background_reference_location=float_profile_data$tracer_background_reference_location_umol_kg,
-    pressure=float_profile_data$pressure_m,
-    Kz=float_profile_data$Kz_m2_s1,
-    MLD=float_profile_data$MLD_m,
-    ekman_v= float_profile_data$ekman_velocity_m_d1,
-    season_label= float_profile_data$season_label,
+    cycle,
+    date,
+    longitude,
+    longitude_median_PS,
+    latitude,
+    latitude_median_PS,
+    temperature,
+    temperature_background,
+    temperature_background_reference_location,
+    salinity ,
+    salinity_background ,
+    salinity_background_reference_location,
+    tracer,
+    tracer_background,
+    tracer_background_reference_location,
+    pressure,
+    Kz,
+    MLD,
+    ekman_v,
+    season_label,
     #  MLD_defination= Model_setting_list$MLD_defination,
     # integration_depth_error= integration_depth_error,
-    smooth_number=  Model_setting_list$data_smooth_number ,
-    integration_depth= float_profile_data$integration_depth_m,
-    EP_term_computation=Model_setting_list$EP_term_computation,
-    background_correction= Model_setting_list$background_correction)  {
+    smooth_number ,
+    integration_depth,
+    EP_term_computation,
+    background_correction)   {
   
   # Merge the input data 
-  float_profile_merge <- data.frame( cycle=cycle,
-                                     date=date,
-                                     longitude=longitude,
-                                     longitude_median_PS=longitude_median_PS,
-                                     latitude=latitude,
-                                     latitude_median_PS=latitude_median_PS,
-                                     temperature=temperature,
-                                     temperature_background=temperature_background,
-                                     temperature_background_reference_location=temperature_background_reference_location,
-                                     salinity =salinity,
-                                     salinity_background = salinity_background,
-                                     salinity_background_reference_location= salinity_background_reference_location,
-                                     tracer=tracer  ,
-                                     tracer_background=tracer_background,
-                                     tracer_background_reference_location=tracer_background_reference_location,
-                                     pressure=pressure,
-                                     Kz=Kz,
-                                     season_label= season_label,
-                                     ekman_v=   ekman_v  ,
-                                     MLD=MLD,
-                                     #  MLD_defination= Model_setting_list$MLD_defination,
-                                     # integration_depth_error= integration_depth_error,
-                                     smooth_number=  Model_setting_list$data_smooth_number ,
-                                     integration_depth= integration_depth,
-                                     EP_term_computation=EP_term_computation)
-  
+  float_profile_merge <- data.frame(
+  cycle=cycle,
+  date=date,
+  longitude=longitude,
+  longitude_median_PS,
+  latitude=latitude,
+  latitude_median_PS,
+  temperature=temperature,
+  temperature_background= temperature_background,
+  temperature_background_reference_location=temperature_background_reference_location,
+  salinity=salinity ,
+  salinity_background=salinity_background,
+  salinity_background_reference_location=salinity_background_reference_location,
+  tracer=tracer,
+  tracer_background=tracer_background,
+  tracer_background_reference_location=tracer_background_reference_location,
+  pressure=pressure,
+  Kz=Kz,
+  MLD=MLD,
+  ekman_v=ekman_v,
+  season_label=season_label,
+
+  smooth_number=smooth_number ,
+  integration_depth=integration_depth,
+  EP_term_computation=EP_term_computation,
+  background_correction=background_correction) 
+
+
   float_profile_merge =arrange(  float_profile_merge ,  
                                  float_profile_merge$cycle,  
                                  float_profile_merge$pressure)
@@ -68,11 +70,11 @@ compute_five_terms_tracer_budget <- function(
                                           float_profile_merge$temperature[!is.na(float_profile_merge$salinity)])/1000 *float_profile_merge$tracer[!is.na(float_profile_merge$salinity)]
   
   
-  float_profile_merge$tracer_background <- sw_dens(  float_profile_merge$salinity_background,
-                                          float_profile_merge$temperature_background)/1000 *float_profile_merge$tracer_background
+  float_profile_merge$tracer_background[!is.na(float_profile_merge$salinity_background)] <- sw_dens(  float_profile_merge$salinity_background[!is.na(float_profile_merge$salinity_background)],
+                                          float_profile_merge$temperature_background[!is.na(float_profile_merge$salinity_background)])/1000 *float_profile_merge$tracer_background[!is.na(float_profile_merge$salinity_background)]
   
-  float_profile_merge$tracer_background_reference_location <- sw_dens(  float_profile_merge$salinity_background_reference_location,
-                                                     float_profile_merge$temperature_background_reference_location)/1000 *float_profile_merge$tracer_background_reference_location
+  float_profile_merge$tracer_background_reference_location[!is.na(float_profile_merge$salinity_background_reference_location)] <- sw_dens(  float_profile_merge$salinity_background_reference_location[!is.na(float_profile_merge$salinity_background_reference_location)],
+                                                     float_profile_merge$temperature_background_reference_location[!is.na(float_profile_merge$salinity_background_reference_location)])/1000 *float_profile_merge$tracer_background_reference_location[!is.na(float_profile_merge$salinity_background_reference_location)]
  
   
   # Extract each cycle 
@@ -120,7 +122,7 @@ compute_five_terms_tracer_budget <- function(
     
     if ( max(per_cycle_data$pressure)+8 > per_cycle_data$integration_depth[1]   ){
       
-      # tracer mean concentration
+      # tracer mean concentration with the salinity normalization
       
       if (    EP_term_computation==1 ){  # salinity normalization 
         salinity_mean =  mean(float_profile_merge$salinity[float_profile_merge$pressure<200],na.rm=T)
@@ -157,17 +159,55 @@ compute_five_terms_tracer_budget <- function(
       
       # Vertical diffusion term 
       line_integration_depth=which(per_cycle_data$pressure== per_cycle_data$integration_depth[1]) 
-      cycle_data$vertical_diffusion[i]=  3600*24*  per_cycle_data$Kz[  line_integration_depth] * ( mean (   per_cycle_data$tracer[ line_integration_depth:(line_integration_depth+5 )])- mean ( per_cycle_data$tracer[    (line_integration_depth-5): line_integration_depth]) )/5
+      if (    EP_term_computation==1 ){ # salinity normalization 
+        
+        salinity_mean =  mean(float_profile_merge$salinity[float_profile_merge$pressure<200],na.rm=T)
+        
+        tracer_gradient_diffusion <-  salinity_mean *
+          ( mean (   per_cycle_data$tracer[ line_integration_depth:(line_integration_depth+5 )]/per_cycle_data$salinity[ line_integration_depth:(line_integration_depth+5 )])- 
+              mean ( per_cycle_data$tracer[    (line_integration_depth-5): line_integration_depth]/per_cycle_data$salinity[    (line_integration_depth-5): line_integration_depth]) )/5
+        cycle_data$vertical_diffusion[i]=  3600*24*  per_cycle_data$Kz[  line_integration_depth] *   tracer_gradient_diffusion
+         
+      } else{
+        tracer_gradient_diffusion<-    ( mean (   per_cycle_data$tracer[ line_integration_depth:(line_integration_depth+5 )])- mean ( per_cycle_data$tracer[    (line_integration_depth-5): line_integration_depth]) )/5
+        cycle_data$vertical_diffusion[i]<-  3600*24*  per_cycle_data$Kz[  line_integration_depth] * tracer_gradient_diffusion
+     
+        
+      } # Bracket for "if (    EP_term_computation==1 ){"
+   
       
-      # Entrainment
-      cycle_data$tracer_c_MLD[i] <-  mean (    per_cycle_data$tracer[1:    per_cycle_data$MLD[1]])
-      cycle_data$tracer_c_MLD_base[i] <-  mean (    per_cycle_data$tracer[ per_cycle_data$MLD[1]:    ( per_cycle_data$MLD[1]+per_cycle_data$MLD_change[1])])
-      cycle_data$entrainment[i] <-    cycle_data$MLD_change_rate[i]* (cycle_data$tracer_c_MLD_base[i]-  cycle_data$tracer_c_MLD[i]) # mmol m-2 d-1
+      
+      # Entrainment term
+      if (    EP_term_computation==1 ){ # salinity normalization 
+        
+        salinity_mean =  mean(float_profile_merge$salinity[float_profile_merge$pressure<200],na.rm=T)
+        tracer_c_MLD <-  mean (    per_cycle_data$tracer[1:    per_cycle_data$MLD[1]]/ per_cycle_data$salinity[1:    per_cycle_data$MLD[1]])*     salinity_mean
+        tracer_c_MLD_base <-  mean (    per_cycle_data$tracer [ per_cycle_data$MLD[1]:    ( per_cycle_data$MLD[1]+per_cycle_data$MLD_change[1])]/
+                                                        per_cycle_data$salinity [ per_cycle_data$MLD[1]:    ( per_cycle_data$MLD[1]+per_cycle_data$MLD_change[1])]) *     salinity_mean
+         
+      } else{
+        
+         tracer_c_MLD <-  mean (    per_cycle_data$tracer[1:    per_cycle_data$MLD[1]])
+         tracer_c_MLD_base <-  mean (    per_cycle_data$tracer[ per_cycle_data$MLD[1]:    ( per_cycle_data$MLD[1]+per_cycle_data$MLD_change[1])])
+      }
+     
+      cycle_data$entrainment[i] <-    cycle_data$MLD_change_rate[i]* (tracer_c_MLD_base-
+                                                                   tracer_c_MLD) # mmol m-2 d-1
+      
+      
       
       # Vertical advection
-      tracer_gradient_ekman <- sum (  derive_1( per_cycle_data$pressure,per_cycle_data$tracer)[1: per_cycle_data$integration_depth[1]] )
+      
+      if (    EP_term_computation==1 ){ # salinity normalization 
+        salinity_mean =  mean(float_profile_merge$salinity[float_profile_merge$pressure<200],na.rm=T)
+        tracer_gradient_ekman <- sum (  derive_1( per_cycle_data$pressure,per_cycle_data$tracer/per_cycle_data$salinity*salinity_mean)[1: per_cycle_data$integration_depth[1]] )
+      } else{
+        tracer_gradient_ekman <- sum (  derive_1( per_cycle_data$pressure,per_cycle_data$tracer)[1: per_cycle_data$integration_depth[1]] )
+      }
+    
       cycle_data$vertical_advection[i]<- per_cycle_data$ekman_v[ 1] *   tracer_gradient_ekman
-      # Add the seasonal label
+     
+       # Add the seasonal label
       cycle_data$season_label[i]= per_cycle_data$season_label[1]
    
     }    # bracket for  " if ( max(per_cycle_data$pressure)+8 > per_cycle_data$integration_depth[1]   ){"                 

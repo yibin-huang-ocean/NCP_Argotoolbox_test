@@ -26,23 +26,25 @@ match_monthly_ocean_color <- function ( path= paste( Model_setting_list$path_NCP
       file_name_open <-     grep(  file_name_unique[i],  
                                    file_name_all, 
                                    value = TRUE)
-      
-      chla=nc_open(        file_name_open);
-      sensible = ncvar_get(chla, chla$var[[1]])
-      lon = ncvar_get(chla,"lon")
-      lat = ncvar_get(chla,"lat")
-      line = which  ( file_name== file_name_unique [i] )
-      
-      for (ia in  line) {
+      if (length(   file_name_open)>0){
+        chla=nc_open(        file_name_open);
+        sensible = ncvar_get(chla, chla$var[[1]])
+        lon = ncvar_get(chla,"lon")
+        lat = ncvar_get(chla,"lat")
+        line = which  ( file_name== file_name_unique [i] )
         
-        lonn <- max (which ( lon<= (longitude[ia])   ))
-        latt <- max ( which (lat>= latitude[ia]  ))
-        
-        
-        match[ia] <- (( sensible[lonn,latt])) # W m-2
-        
-        
+        for (ia in  line) {
+          
+          lonn <- max (which ( lon<= (longitude[ia])   ))
+          latt <- max ( which (lat>= latitude[ia]  ))
+          
+          
+          match[ia] <- (( sensible[lonn,latt])) # W m-2
+          
+          
+        }
       }
+     
       
       print(   paste("Matching remotely sensed Chla. Progress: ",
                      round(i/length (    file_name_unique)*100,3)

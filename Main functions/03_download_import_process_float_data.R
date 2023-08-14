@@ -47,6 +47,10 @@ download_import_process_float_data <- function (
   ) # Note: "load_float_data" archived from the ONE-ARGO-R toolbox is slightly modified in 
     # in order to extract the oxygen sensor calibration information 
   
+  # Stop running if the qualified dfloat data archived from GDAC
+  if (is.null(float_profile_data)){
+    return()
+  }
   
   float_profile_data=subset(  float_profile_data,  
                               float_profile_data$CYCLE_NUMBER>0 &
@@ -249,6 +253,7 @@ download_import_process_float_data <- function (
                               pressure=float_profile_data$PRES,
                               bbp_raw= float_profile_data$BBP700)
     
+    print("Success in bbp quality control")
     # Convert bbp into the POC concentration
     
     if (Model_setting_list$bbp_to_POC_conversion==1){# Briggs et al., (2011)
@@ -272,7 +277,6 @@ download_import_process_float_data <- function (
       salinity=  float_profile_data$PSAL_ADJUSTED,
       tracer_umol_kg1=  float_profile_data$POC)
 
-    print("Start bbp data quality control")
     
   }  # Bracket for  "if (   Model_setting_list$tracer==5)"
   
@@ -301,11 +305,6 @@ download_import_process_float_data <- function (
     interval=1 # depth interval  
   )
 
- # if (oxygen_sensor_calibration ==2){
-  #  print("Note: the float oxygen sensor was calibrated against WOA oxygen climatology (typically achiving the accuracy of ~3%) so oxygen-based NCP estimate may carry large error.")
-   # float_profile_data$oxygen_sensor_calibration="WOA calibration"
-  #}
-  
 
 
 # Double check if the surface data is completed ---------------------------
@@ -321,15 +320,11 @@ download_import_process_float_data <- function (
   float_profile_data= filter(  float_profile_data,  !float_profile_data$cycle %in%  Model_setting_list$cycle_filter)
   
   float_profile_data$oxygen_sensor_calibration= oxygen_sensor_calibration
-  if (oxygen_sensor_calibration ==1){
-    print("Note: the float oxygen sensor was calibrated against the air measurment (typically achiving the accuracy of ~1%) so oxygen-based NCP estimate may be reliable.")
-    float_profile_data$oxygen_sensor_calibration="Air calibration"
-  }
+
   
   
 # Gap-fill the missing value of tracer over time -----------------------------------------------------
 
-  
   
   if  (Model_setting_list$tracer_gap_filling==1){
    

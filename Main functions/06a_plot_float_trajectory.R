@@ -50,8 +50,8 @@ plot_float_trajectory=function(tracer_budget,
                                                      y=    tracer_budget_PS$latitude_N,
                                                      color="Productive season (PS)"))
     
-    g1=g1+geom_point( data=tracer_budget, aes(x=tracer_budget$longitude_median_PS_E, 
-                                            y=tracer_budget$latitude_median_PS_N,color="Median location during each PS"),
+    g1=g1+geom_point( data=tracer_budget, aes(x=tracer_budget$longitude_reference_PS_E, 
+                                            y=tracer_budget$latitude_reference_PS_N,color="Reference location during each PS"),
                       size=5)
     
    

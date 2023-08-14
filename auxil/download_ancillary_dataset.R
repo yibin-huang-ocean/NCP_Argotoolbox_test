@@ -1,6 +1,84 @@
 
 download_ancillary_dataset=function(){
   
+
+   # Create the directory for storing the ancillary dataset --------------------------
+
+  if (!dir.exists(paste(  root_path_tracer_budget_toolbox,
+                           "Ancillary data and toolbox/Toolbox/",sep=""))){
+    
+    dir.create(paste(  root_path_tracer_budget_toolbox,
+            "Ancillary data and toolbox/Toolbox/",sep="")) 
+  } # Bracket for "if (!dir.exists"
+
+  if (!dir.exists(paste(  root_path_tracer_budget_toolbox,
+                          "Ancillary data and toolbox/Ancilary data/NCEP_II/",sep=""))){
+    
+    dir.create(paste(  root_path_tracer_budget_toolbox,
+                       "Ancillary data and toolbox/Ancilary data/NCEP_II/",sep=""))
+    
+    dir.create(paste(  root_path_tracer_budget_toolbox,
+                       "Ancillary data and toolbox/Ancilary data/NCEP_II/Ice coverage",sep=""))
+    
+    dir.create(paste(  root_path_tracer_budget_toolbox,
+                       "Ancillary data and toolbox/Ancilary data/NCEP_II/relative humidity_NCEP_I",sep="")) 
+    
+    dir.create(paste(  root_path_tracer_budget_toolbox,
+                       "Ancillary data and toolbox/Ancilary data/NCEP_II/sea-level pressure",sep="")) 
+    
+    dir.create(paste(  root_path_tracer_budget_toolbox,
+                       "Ancillary data and toolbox/Ancilary data/NCEP_II/uwind",sep="")) 
+    
+    dir.create(paste(  root_path_tracer_budget_toolbox,
+                       "Ancillary data and toolbox/Ancilary data/NCEP_II/vwind",sep="")) 
+  } # Bracket for "if (!dir.exists"
+  
+  
+  if (!dir.exists(paste(  root_path_tracer_budget_toolbox,
+                          "Ancillary data and toolbox/Ancilary data/WOA2018/",sep=""))){
+    
+    dir.create(paste(  root_path_tracer_budget_toolbox,
+                       "Ancillary data and toolbox/Ancilary data/WOA2018",sep=""))
+    
+    dir.create(paste(  root_path_tracer_budget_toolbox,
+                       "Ancillary data and toolbox/Ancilary data/WOA2018/no3",sep=""))
+    
+    dir.create(paste(  root_path_tracer_budget_toolbox,
+                       "Ancillary data and toolbox/Ancilary data/WOA2018/no3",sep=""))
+    
+    dir.create(paste(  root_path_tracer_budget_toolbox,
+                       "Ancillary data and toolbox/Ancilary data/WOA2018/salinity",sep="")) 
+    
+    dir.create(paste(  root_path_tracer_budget_toolbox,
+                       "Ancillary data and toolbox/Ancilary data/WOA2018/temperature",sep="")) 
+
+  } # Bracket for "if (!dir.exists"
+  
+  
+  if (!dir.exists(paste(  root_path_tracer_budget_toolbox,
+                          "Ancillary data and toolbox/Ancilary data/Chla/",sep=""))){
+    
+    dir.create(paste(  root_path_tracer_budget_toolbox,
+                       "Ancillary data and toolbox/Ancilary data/Chla/",sep=""))
+    
+  } # Bracket for "if (!dir.exists"
+  
+  if (!dir.exists(paste(  root_path_tracer_budget_toolbox,
+                          "Ancillary data and toolbox/Ancilary data/DIC/",sep=""))){
+    
+    dir.create(paste(  root_path_tracer_budget_toolbox,
+                       "Ancillary data and toolbox/Ancilary data/DIC/",sep=""))
+    
+  } # Bracket for "if (!dir.exists"
+  
+  if (!dir.exists(paste(  root_path_tracer_budget_toolbox,
+                          "Ancillary data and toolbox/Ancilary data/TA/",sep=""))){
+    
+    dir.create(paste(  root_path_tracer_budget_toolbox,
+                       "Ancillary data and toolbox/Ancilary data/TA/",sep=""))
+    
+  } # Bracket for "if (!dir.exists"
+  
   
   ##Canyon-B toolbox ------------------------------------------------------
   

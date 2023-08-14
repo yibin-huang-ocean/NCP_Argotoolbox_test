@@ -24,21 +24,24 @@ match_TA_NNGv2LDEO = function ( path="/Users/yibinhuang/Desktop/Yibin /NASA EXPO
     
     lonn <- max (which ( lon<= longitude [ia]  ))
     latt <- max ( which (lat<= latitude[ia]  ))
+    depth_index_max= which.min(pressure[ia] >depth)+3
+    depth_index_max[    depth_index_max>length(depth)]=depth_index_max>length(depth)
     
     if (  time_window=="monthly"){
-      DIC_profile<-  ncvar_get(chla, "AT_NNGv2",
+      TA_profile<-  ncvar_get(chla, "AT_NNGv2",
                                start=c(  month[ia],1,latt,lonn),
                                count= c(1,-1,1,1)) 
-      
+      TA_profile<-  TA_profile[1: depth_index_max]
     }  
     
     if (  time_window=="annual"){
       
-      DIC_profile=rep(NaN,length(depth))
+    
+     TA_profile=rep(NaN,   depth_index_max)
       
       
-      for (i in 1:length(depth)){
-        DIC_profile[i]<-   mean(ncvar_get(chla, "AT_NNGv2",
+      for (i in 1: depth_index_max){
+        TA_profile[i]<-   mean(ncvar_get(chla, "AT_NNGv2",
                                           start=c(  month[ia],i,latt,lonn),
                                           count= c(-1,1,1,1)) ,na.rm=T)
         
@@ -47,18 +50,18 @@ match_TA_NNGv2LDEO = function ( path="/Users/yibinhuang/Desktop/Yibin /NASA EXPO
     } 
   
     
-    DIC_valid = sum(!(is.na(DIC_profile)))
+ TA_valid = sum(!(is.na(TA_profile)))
     
-    if (DIC_valid > 3){
-      match[ia]<-  approx(  depth,  
-                            DIC_profile,
+    if (TA_valid > 3){
+      match[ia]<-    approx(  depth[1:depth_index_max], 
+                        TA_profile,
                             pressure[ia] )$y
       
       
       
     }
     
-    
+    print(paste("Progress in TA background product matchup:",round(ia/length(longitude)*100,3),"%",sep=""))
   }
   
   

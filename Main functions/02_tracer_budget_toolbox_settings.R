@@ -4,7 +4,8 @@ tracer_budget_toolbox_settings <- function(
                               WMOID,   
                               tracer, 
                               integration_depth,
-                              background_correction
+                              background_correction,
+                              ekman_pumping_velocity
                               ){
   # Function Description:
   # This function returns a list file containing a set of model settings applied to the tracer budget model
@@ -31,7 +32,6 @@ tracer_budget_toolbox_settings <- function(
     QC_flag <- 1
     Data_smooth_number <- 5
     Entrainment_parameterization  <- 1
-    Ekman_pumping_parameterization  <- 1
     diapyncal_diffusivity  <- 10^-5
     Cycle_filter <- 0
     Iterations_uncertainty_simulation <- 10
@@ -42,24 +42,35 @@ tracer_budget_toolbox_settings <- function(
     Car_Equ_Cons_K1_K2 <- 1
     Car_Equ_Cons_Ks <- 1
     Total_boron_concentration <-1
-    ekman_pumping_velocity <- 1
     tracer_gap_filling <- 1
 
 # Specify the settings if user chooses to customize the model settings----------------------------------------------------
-
+    if ( integration_depth!=1 &  integration_depth!=2 &
+         integration_depth!=3 & integration_depth<10 ){
+      print("User-defined integration depth should be greater than 10m (must be an integer)")
+      integration_depth <- as.numeric(readline("Specify the integration depth (Option: 1. MLD;2. varying monthly euphotic zone; 3. Fixed depth equal to mean euphotic zone over the float lifetime; 4. Used-defined fixed depth (must be an integer and greater than 10m). ):"))
+      
+      
+    }
+    
     if (  advanced_setting!=1){ # Customization of model settings
       
       MLD_defination<- as.numeric(readline("Specify the mixed layer depth defination (Option: 1. Temperature threshold; 2. Density threshold):"))
-      Data_smooth_number <- as.numeric(readline("Specify the time step used for moving-smooth (input the number):"))
+      
+      Data_smooth_number <- as.numeric(readline("Specify the time step used for moving-smooth (input the number, must be an integer):"))
+   
+      
       diapyncal_diffusivity  <- (readline("Specify the diapyncal diffusivity (backgroudn value: 10^-5 m s-2):"))
       Cycle_filter <- as.vector((readline("Specify the vector indicating cycle nubmers for the float data removal (note 0 represents reataining all cycles):")))
       Cycle_filter <-  eval(parse(text =     Cycle_filter)) # convert into the vector
       
       Iterations_uncertainty_simulation <- as.numeric(readline("Specify the iterations for uncertainty simulation:"))
       tracer_gap_filling <- as.numeric(readline("Specify if gap-fill the tracer missing value (Option: 1. Yes; 2: NO):"))
-      ekman_pumping_velocity <- as.numeric(readline("Specify ekman pumping velocity product (Option: 1. real time (online matchup); 2. monthly climatogy (faster matchup)):"))
       
-
+      
+     # ekman_pumping_velocity <- as.numeric(readline("Specify ekman pumping velocity product (Option: 1. real time (online matchup); 2. monthly climatogy (faster matchup)):"))
+      
+      
       if (tracer==1){ # DIC budget 
         TA_algorithm <- as.numeric(readline("Specify TA algorithm  (Option: 1. Canyon-B; 2. LIAR (not available in R); 3. Blend of Canyon-B and LIAR  (not available in R)):"))
         Car_Equ_Cons_K1_K2 <- as.numeric(readline("Specify carbonate equilibrium constant of K1 and K2 (Opitioin: 1.Lueker et al. (2000); 2. Millero et al. (2002); 3.Waters et al. (2014); 4. Millero (2010):"))
@@ -88,7 +99,7 @@ tracer_budget_toolbox_settings <- function(
         EP_term_computation <- as.numeric(readline("Specifiy the method to account for evaporation and precipitation (Opitioin: 1. Salinity normalizaton (not applicable for O2 budget); 2. Connect to salinity budget (not applicable for O2 budget)):"))
       }
       
-      
+    
     } # Bracket for if ( advanced_setting!=1)"
     
     
@@ -144,18 +155,18 @@ tracer_budget_toolbox_settings <- function(
     }
     
     if ( ekman_pumping_velocity==1){
-      ekman_pumping_velocity_print="real time (online matchup)"
+      ekman_pumping_velocity_print="Real time (online matchup)"
     }
     if ( ekman_pumping_velocity==2){
-      ekman_pumping_velocity_print="monthly climatolgy (local matchup)"
+      ekman_pumping_velocity_print="Monthly climatolgy (local matchup)"
     }
    
     
     if (  EP_term_computation == 1){
-      EP_term_computation_print <- "salinity normalizaton"
+      EP_term_computation_print <- "Salinity normalizaton"
     } 
     if (  EP_term_computation == 2){
-      EP_term_computation_print <- "connect to salinity budget"
+      EP_term_computation_print <- "Connect to salinity budget"
     }
     
     if (  EP_term_computation == 0){
@@ -177,18 +188,18 @@ tracer_budget_toolbox_settings <- function(
     } 
     
     if (background_correction == 2){
-      background_correction_print <-"Lagrangian correction"
+      background_correction_print <-"Quasi_lagrangian correction"
     } 
     if (background_correction == 3){
-      background_correction_print <-"Lagrangian correction"
+      background_correction_print <-"Quasi_lagrangian correction"
     } 
     
 
     
     if (    MLD_defination == 1){
-      MLD_defination_print <- "temperature threshold"
+      MLD_defination_print <- "Temperature threshold"
     } else{
-      MLD_defination_print <- "density threshold"
+      MLD_defination_print <- "Density threshold"
     }
     
     

@@ -1,8 +1,8 @@
 
 Perform_tracer_budget <- function( 
     
-  float_profile_data= float_profile_data_ancilary_parameter,
-  Model_setting_list=Model_setting_list){
+  float_profile_data,
+  Model_setting_list ){
   
   # DESCRIPTION:
   # This function returns a data.frame containing model output from the tracer budget model 
@@ -168,31 +168,32 @@ Perform_tracer_budget <- function(
       
         salinity_budget<-  compute_five_terms_tracer_budget( 
           
-        cycle=float_profile_data$cycle,
-        date=float_profile_data$date,
-        longitude=float_profile_data$longitude_E,
-        longitude_median_PS=float_profile_data$longitude_median_PS_E,
-        latitude=float_profile_data$latitude_N,
-        latitude_median_PS=float_profile_data$latitude_median_PS_N,
-        temperature=float_profile_data$temperature_C,
-        temperature_background=float_profile_data$temperature_background_C,
-        temperature_background_reference_location=float_profile_data$temperature_background_reference_location_C,
-        salinity =float_profile_data$salinity,
-        salinity_background = float_profile_data$salinity_background,
-        salinity_background_reference_location= float_profile_data$salinity_background_reference_location,
-        tracer=float_profile_data$salinity,
-        tracer_background=float_profile_data$salinity_background,
-        tracer_background_reference_location=float_profile_data$salinity_background_reference_location,
-        pressure=float_profile_data$pressure_m,
-        Kz=float_profile_data$Kz_m2_s1,
-        ekman_v= float_profile_data$ekman_velocity_m_d1,
-        season_label= float_profile_data$season_label,
-        #  MLD_defination= Model_setting_list$MLD_defination,
-        # integration_depth_error= integration_depth_error,
-        smooth_number=  Model_setting_list$data_smooth_number ,
-        integration_depth= float_profile_data$integration_depth_m,
-        EP_term_computation=Model_setting_list$EP_term_computation,
-        background_correction= Model_setting_list$background_correction) 
+          cycle=float_profile_data$cycle,
+          date=float_profile_data$date,
+          longitude=float_profile_data$longitude_E,
+          longitude_median_PS=float_profile_data$longitude_median_PS_E,
+          latitude=float_profile_data$latitude_N,
+          latitude_median_PS=float_profile_data$latitude_median_PS_N,
+          temperature=float_profile_data$temperature_C,
+          temperature_background=float_profile_data$temperature_background_C,
+          temperature_background_reference_location=float_profile_data$temperature_background_reference_location_C,
+          salinity =float_profile_data$salinity,
+          salinity_background = float_profile_data$salinity_background,
+          salinity_background_reference_location= float_profile_data$salinity_background_reference_location,
+          tracer=float_profile_data$salinity,
+          tracer_background=float_profile_data$salinity_background,
+          tracer_background_reference_location=float_profile_data$salinity_background_reference_location,
+          pressure=float_profile_data$pressure_m,
+          Kz=float_profile_data$Kz_m2_s1,
+          MLD=float_profile_data$MLD_m,
+          ekman_v= float_profile_data$ekman_velocity_m_d1,
+          season_label= float_profile_data$season_label,
+          #  MLD_defination= Model_setting_list$MLD_defination,
+          # integration_depth_error= integration_depth_error,
+          smooth_number=  Model_setting_list$data_smooth_number ,
+          integration_depth= float_profile_data$integration_depth_m,
+          EP_term_computation=Model_setting_list$EP_term_computation,
+          background_correction= Model_setting_list$background_correction) 
 
         
         if (Model_setting_list$integration_depth!=1){
@@ -331,9 +332,9 @@ Perform_tracer_budget <- function(
                             tracer=  Model_setting_list$tracer,
                             cycle=tracer_budget$cycle,
                             longitude_E= tracer_budget$longitude,
-                            longitude_median_PS_E= tracer_budget$longitude_median_PS,
+                            longitude_reference_PS_E= tracer_budget$longitude_median_PS,
                             latitude_N= tracer_budget$latitude,
-                            latitude_median_PS_E= tracer_budget$ latitude_median_PS,
+                            latitude_reference_PS_N= tracer_budget$latitude_median_PS,
                             season_label=tracer_budget$season_label,
 
                             date=tracer_budget$date,

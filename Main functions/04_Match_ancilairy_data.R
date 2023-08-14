@@ -7,10 +7,8 @@ Match_ancillary_data <- function( float_profile_data=float_profile_data,
   # PREREQUISITE FUNCTIONS (auxiliary functions deposited in the file named "auxi"):
   # compute_median_location_productive_season
   # match_WOA_annual
-  # match_DIC_NNGv2LDEO_annual_mean
-  # match_DIC_NNGv2LDEO_monthly_mean
-  # match_TA_NNGv2LDEO_annual_mean
-  # match_TA_NNGv2LDEO_monthly_mean
+  # match_DIC_NNGv2LDEO
+  # match_TA_NNGv2LDEO
   # Convert_matlabtime
   # match_NCEP_II_NCP_toolbox
   # compute_MLD
@@ -168,7 +166,7 @@ Match_ancillary_data <- function( float_profile_data=float_profile_data,
   
   
   
-  if (Model_setting_list$integration_depth>6){ # Fixed depth
+  if (Model_setting_list$integration_depth>9){ # Fixed depth
     
     ancilary_data_per_cycle$integration_depth_m=Model_setting_list$integration_depth
     
@@ -456,9 +454,9 @@ Match_ancillary_data <- function( float_profile_data=float_profile_data,
         print("start to collocate with the NO3 background product")
         float_profile_data$tracer_background_umol_kg <- match_WOA_annual(path= paste( Model_setting_list$path_NCP_toolbox,  
                                                                                       "Ancillary data and toolbox/Ancilary data/WOA2018/no3", sep="") ,
-                                                                         float_profile_data$longitude_E,
-                                                                         float_profile_data$latitude_N,
-                                                                         float_profile_data$pressure_m)
+                                                                         longitude=  float_profile_data$longitude_E,
+                                                                         latitude=  float_profile_data$latitude_N,
+                                                                         pressure=  float_profile_data$pressure_m)
         
         print("Success in nitrate background matchup")
       }# bracket for "if (tracer==2)
@@ -472,6 +470,7 @@ Match_ancillary_data <- function( float_profile_data=float_profile_data,
                                                                            longitude= float_profile_data$longitude_E,
                                                                            latitude= float_profile_data$latitude_N,
                                                                            pressure=  float_profile_data$pressure_m,
+                                                                           date=float_profile_data$date,
                                                                            time_window = "annual")
         
         print("Success in DIC background matchup")
@@ -480,10 +479,11 @@ Match_ancillary_data <- function( float_profile_data=float_profile_data,
       
       if (Model_setting_list$tracer==4){ # TA 
         print("start to collocate with the TA background product")
-        float_profile_data$tracer_background_umol_kg <- match_TA_NNGv2LDEO_annual_mean(path= paste( Model_setting_list$path_NCP_toolbox,  
-                                                                                                    "Data/Ancilary data/TA_product", sep="") ,
+        float_profile_data$tracer_background_umol_kg <- match_TA_NNGv2LDEO(path= paste( Model_setting_list$path_NCP_toolbox,  
+                                                                                        "Ancillary data and toolbox/Ancilary data/TA", sep="") ,
                                                                                        longitude= float_profile_data$longitude_E,
                                                                                        latitude= float_profile_data$latitude_N,
+                                                                                       date=float_profile_data$date,
                                                                                        pressure=  float_profile_data$pressure_m)
         
         

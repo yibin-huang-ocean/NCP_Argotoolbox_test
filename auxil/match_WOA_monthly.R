@@ -40,7 +40,7 @@ match_WOA_monthly <- function ( path,
     year_line = which (year== year_unique[i] )
     
     
-    
+    ia=1
     for (ia in  year_line ) {
       
       lonn <- max (which ( lon<= longitude [ia]  ))
@@ -52,9 +52,12 @@ match_WOA_monthly <- function ( path,
         
         if (pressure[ia]<= max(    depth)){
          
-          match[ia]<-  approx(  depth,  
-                                sensible[lonn,latt,],
-                                pressure[ia] )$y
+          if (Count_No_NA( sensible[lonn,latt,])>3){
+            match[ia]<-  approx(  depth,  
+                                  sensible[lonn,latt,],
+                                  pressure[ia] )$y
+          }
+          
           
           
           
@@ -63,9 +66,15 @@ match_WOA_monthly <- function ( path,
           # data of monthly climatology are only 800m
           
           depthh=  min ( which (depth_annual>= pressure[ia]  ))
-          match[ia]<-  approx(    depth_annual,  
-                                sensible_annual[lonn,latt,],
-                                pressure[ia] )$y
+          
+          if (Count_No_NA( sensible[lonn,latt,])>3){
+            match[ia]<-  approx(    depth_annual,  
+                                    sensible_annual[lonn,latt,],
+                                    pressure[ia] )$y
+          }
+          
+          
+       
           
           
         }

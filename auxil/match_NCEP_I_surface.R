@@ -26,13 +26,17 @@ match_NCEP_I_surface <- function ( path,
     for (ia in  year_line ) {
       
       time_difference <- yday ( Convert_matlabtime( date[ia]))   # calculate the tim
-      if (longitude[ia] <=0){
-        lonn <- max (which ( lon<= (longitude[ia]+360)   ))
-      } else{
-        lonn <- max (which ( lon<= (longitude[ia])   ))
-      }
-      latt <- max ( which (lat>= latitude[ia]  ))
-      match[ia] <- mean ( sensible[lonn,latt,time_difference]) # W m-2
+      if (length(time)>      time_difference){ # Ensure the NCEP product contains the float sampling time period
+        if (longitude[ia] <=0){
+          lonn <- max (which ( lon<= (longitude[ia]+360)   ))
+        } else{
+          lonn <- max (which ( lon<= (longitude[ia])   ))
+        }
+        latt <- max ( which (lat>= latitude[ia]  ))
+        match[ia] <- mean ( sensible[lonn,latt,time_difference]) # 
+      } # Bracket for "if (length(time)>      time_difference){ # 
+      
+      
     }
     nc_close(chla)
     rm(    sensible)
