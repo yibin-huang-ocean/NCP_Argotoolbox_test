@@ -4,8 +4,8 @@ rm(list = ls())
 
 
 # Step 1: Specify the root path of tracer budget toolbox and appkey_Earthda--------------------------
-root_path_tracer_budget_toolbox="/Users/yibinhuang/Desktop/Yibin /NASA EXPORT/code/my code/tracer budget  toolbox/Tracer budget toolbox/"
-appkey_Earthdata <- "069271272ca0a0af44726d603a730a4c1c5c6cfe" 
+root_path_tracer_budget_toolbox<- 
+appkey_Earthdata <- 
 # copy the APPKEY archived from NASA EARTHDATA website at https://oceandata.sci.gsfc.nasa.gov/appkey/
 # This appkey is required to download the remotely sensed chl data from Ocean Color Data 
 # Note: appkey_Earthdat may need to be periodically renewed 
