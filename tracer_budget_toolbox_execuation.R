@@ -4,8 +4,8 @@ rm(list = ls())
 
 
 # Step 1: Specify the root path of tracer budget toolbox and appkey_Earthda--------------------------
-root_path_tracer_budget_toolbox<- 
-appkey_Earthdata <- 
+root_path_tracer_budget_toolbox<- "/Users/yibinhuang/Desktop/Yibin /NASA EXPORT/code/my code/tracer budget  toolbox/Tracer budget toolbox/"
+appkey_Earthdata <- "069271272ca0a0af44726d603a730a4c1c5c6cfe"
 # copy the APPKEY archived from NASA EARTHDATA website at https://oceandata.sci.gsfc.nasa.gov/appkey/
 # This appkey is required to download the remotely sensed chl data from Ocean Color Data 
 # Note: appkey_Earthdat may need to be periodically renewed 
@@ -36,7 +36,7 @@ Model_setting_list=tracer_budget_toolbox_settings (
                         # 3. Fixed depth equal to mean euphotic zone over the float lifetime;
                         # or user-defined fixed depth (must be an integer and greater than 10m). 
   background_correction= 3, # 1. NO; 2. Quasi_lagrangian correction (not applicable for oxygen and POC budget); 
-                            # 3. Quasi_eularian correction (not applicable for oxygen and POC budget)
+                            # 3. Quasi_Eulerian correction (not applicable for oxygen and POC budget)
   ekman_pumping_velocity=2, # 1. Real time (longer waiting time because of the online matchup); 
                             # 2. Monthly climatology (short waiting time because of local matchup) 
   advanced_setting=1  # 1: Default; 2: Customization
