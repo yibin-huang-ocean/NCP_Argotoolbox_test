@@ -95,14 +95,14 @@ Perform_tracer_budget <- function(
    
     if (  Model_setting_list$tracer==1){ # DIC
       tracer_error_line=4 # corresponding error line in the uncertainty form 
-      CO2_gas_diffsuion_error <- rnorm(1,0,Model_setting_list$error_assignment[6,2] )/100
+      CO2_gas_diffusion_error <- rnorm(1,0,Model_setting_list$error_assignment[6,2] )/100
     }
     if (  Model_setting_list$tracer==2){ # NO3
       tracer_error_line=2
     }
     if (  Model_setting_list$tracer==3){ # oxygen 
       tracer_error_line=3
-      O2_gas_diffsuion_error <- rnorm(1,0,Model_setting_list$error_assignment[7,2] )/100
+      O2_gas_diffusion_error <- rnorm(1,0,Model_setting_list$error_assignment[7,2] )/100
       O2_gas_bubble_error <- rnorm(1,0,Model_setting_list$error_assignment[8,2] )/100
     }
     if (  Model_setting_list$tracer==4){ # TA
@@ -234,7 +234,7 @@ Perform_tracer_budget <- function(
                                                    pCO2_water=   float_profile_data$pCO2_water_uatm,
                                                    wind_speed=float_profile_data$wind_speed_m_s,
                                                    ice_coverage= float_profile_data$ice_coverage_percent,
-                                                   ks_error=    CO2_gas_diffsuion_error,
+                                                   ks_error=    CO2_gas_diffusion_error,
                                                    gas_model=Model_setting_list$gas_model)
       
     } # bracket for "if (tracer =="DIC")"
@@ -250,7 +250,7 @@ Perform_tracer_budget <- function(
                                                                  sea_level_pressure = float_profile_data$sea_level_pressure_Pa,
                                                                  wind_speed=float_profile_data$wind_speed_m_s,
                                                                  ice_coverage= float_profile_data$ice_coverage_percent,
-                                                                 ks_oxygen_error=      O2_gas_diffsuion_error, 
+                                                                 ks_oxygen_error=      O2_gas_diffusion_error, 
                                                                  kb_oxygen_error=      O2_gas_bubble_error, 
                                                                  kc_oxygen_error=      O2_gas_bubble_error ,
                                                                  gas_model=Model_setting_list$gas_model)

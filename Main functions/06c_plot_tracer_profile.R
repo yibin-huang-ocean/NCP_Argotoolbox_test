@@ -57,10 +57,10 @@ plot_tracer_profile =function(float_profile_data,
 
   fig=fig+labs(fill = "")
   fig=fig+theme(legend.text = element_text(size = 12,face = 'bold',family = "serif"))# adjust the legend feature
-  fig=fig+theme (axis.title.y = element_text(size=12,colour = "black",face = "bold",family = "Times New Roman") ) ##y轴名称加粗，加大
-  fig=fig+theme (axis.title.x = element_text(size=12,colour = "black",face = "bold",family = "Times New Roman") ) ##x轴名称加粗，加大
-  fig=fig+theme (axis.text.y = element_text(size=12,colour = "black",face = "bold",family = "Times New Roman") ) #y坐标轴加粗
-  fig=fig+theme (axis.text.x = element_text(size=12,colour = "black",face = "bold",family = "Times New Roman") ) #x坐标轴加粗
+  fig=fig+theme (axis.title.y = element_text(size=12,colour = "black",face = "bold",family = "Times New Roman") )
+  fig=fig+theme (axis.title.x = element_text(size=12,colour = "black",face = "bold",family = "Times New Roman") ) 
+  fig=fig+theme (axis.text.y = element_text(size=12,colour = "black",face = "bold",family = "Times New Roman") )
+  fig=fig+theme (axis.text.x = element_text(size=12,colour = "black",face = "bold",family = "Times New Roman") ) 
   fig=fig+labs (family="serif",x="")  # modify the x-axis label
   fig=fig+labs (family="serif",y=expression (bold(Depth~"("~m~")")) )  # modify the y-axis label
   fig=fig+ scale_color_cmocean(name ='matter')

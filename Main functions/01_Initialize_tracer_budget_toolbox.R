@@ -46,6 +46,14 @@ print ("Successfully loaded required libraries")
 
 # Load a set of local scripts specifically created for the tracer-budget toolbox -----
 
+# check if the user-defined pathway ends with "/"
+# if not, we need to add the slash to ensure the secondary file directory work smoothly
+if (substr(  root_path_tracer_budget_toolbox,
+         nchar(  root_path_tracer_budget_toolbox),
+         nchar(  root_path_tracer_budget_toolbox)) != "/" ){
+  root_path_tracer_budget_toolbox=paste(root_path_tracer_budget_toolbox,
+                                        "/",sep="")
+}
 # Load the main functions
 
   path_main_functions= paste(         root_path_tracer_budget_toolbox,
@@ -98,7 +106,7 @@ print ("Successfully loaded required libraries")
 # Load Canyon_B algorithm -------------------------------------------------
 setwd(paste(    root_path_tracer_budget_toolbox ,
                              "Ancillary data and toolbox/Toolbox/Canyon-B toolbox" ,sep="" ))  
-# Modify the file directory in the script of "CANYONB" to avoid the error 
+# Modify the file directory in the script of "CANYONB" to new path where Canyon-B is placed
 line_to_modify <- 88
 script_content <- readLines("CANYONB.R")
 file_path_CANYONB=paste(    root_path_tracer_budget_toolbox ,

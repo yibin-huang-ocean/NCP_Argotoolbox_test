@@ -19,7 +19,7 @@ tracer_budget_toolbox_settings <- function(
   #                                3. Fixed depth equal to mean euphotic zone over the float lifetime;
   #                                4. Used-fined fixed depth (must be an integer and greater than 10m). 
   # background_correction (numeric): # 1. NO; 2. Quasi_lagrangian correction (not applicable for oxygen and POC budget); 
-                                     #  3. Quasi_eularian correction (not applicable for oxygen and POC budget)
+                                     #  3. Quasi_Eulerian correction (not applicable for oxygen and POC budget)
   
   # OUTPUTS:
   # list file: containing all model settings in the tracer budget model
@@ -28,11 +28,11 @@ tracer_budget_toolbox_settings <- function(
   
 # Default model settings  --------------------------------------------------------
 
-    MLD_defination<- 1
+    MLD_definition<- 1
     QC_flag <- 1
     Data_smooth_number <- 5
     Entrainment_parameterization  <- 1
-    diapyncal_diffusivity  <- 10^-5
+    diapycnal_diffusivity  <- 10^-5
     Cycle_filter <- 0
     Iterations_uncertainty_simulation <- 10
     bbp_to_POC_conversion <- 1
@@ -55,12 +55,12 @@ tracer_budget_toolbox_settings <- function(
     
     if (  advanced_setting!=1){ # Customization of model settings
       
-      MLD_defination<- as.numeric(readline("Specify the mixed layer depth defination (Option: 1. Temperature threshold; 2. Density threshold):"))
+      MLD_definition<- as.numeric(readline("Specify the mixed layer depth definition (Option: 1. Temperature threshold; 2. Density threshold):"))
       
       Data_smooth_number <- as.numeric(readline("Specify the time step used for moving-smooth (input the number, must be an integer):"))
    
       
-      diapyncal_diffusivity  <- (readline("Specify the diapyncal diffusivity (backgroudn value: 10^-5 m s-2):"))
+      diapycnal_diffusivity  <- (readline("Specify the diapycnal diffusivity (backgroudn value: 10^-5 m s-2):"))
       Cycle_filter <- as.vector((readline("Specify the vector indicating cycle nubmers for the float data removal (note 0 represents reataining all cycles):")))
       Cycle_filter <-  eval(parse(text =     Cycle_filter)) # convert into the vector
       
@@ -73,15 +73,15 @@ tracer_budget_toolbox_settings <- function(
       
       if (tracer==1){ # DIC budget 
         TA_algorithm <- as.numeric(readline("Specify TA algorithm  (Option: 1. Canyon-B; 2. LIAR (not available in R); 3. Blend of Canyon-B and LIAR  (not available in R)):"))
-        Car_Equ_Cons_K1_K2 <- as.numeric(readline("Specify carbonate equilibrium constant of K1 and K2 (Opitioin: 1.Lueker et al. (2000); 2. Millero et al. (2002); 3.Waters et al. (2014); 4. Millero (2010):"))
-        Car_Equ_Cons_Ks <- as.numeric(readline("Specify carbonate equilibrium constant of Ks (Opitioin: 1.Dickson (1990); 2. Khoo et al. (1977):"))
-        Total_boron_concentration <- as.numeric(readline("Specify concentration of total boron (Opitioin: 1.Lee et al. (2010); 2. Uppstrom (1974) :"))
+        Car_Equ_Cons_K1_K2 <- as.numeric(readline("Specify carbonate equilibrium constant of K1 and K2 (Option: 1.Lueker et al. (2000); 2. Millero et al. (2002); 3.Waters et al. (2014); 4. Millero (2010):"))
+        Car_Equ_Cons_Ks <- as.numeric(readline("Specify carbonate equilibrium constant of Ks (Option: 1.Dickson (1990); 2. Khoo et al. (1977):"))
+        Total_boron_concentration <- as.numeric(readline("Specify concentration of total boron (Option: 1.Lee et al. (2010); 2. Uppstrom (1974) :"))
         Gas_model <- as.numeric(readline("Specifiy the CO2 gas model (Option: 1. Wanninkhof (2014); 2. Wanninkhof (1992); 3. Ho et al., (2006); 4. Sweeney et al. (2007)):"))
-        EP_term_computation <- as.numeric(readline("Specifiy the method to account for evaporation and precipitation (Opitioin: 1. Salinity normalizaton (not applicable for O2 budget); 2. Connect to salinity budget (not applicable for O2 budget)):"))
+        EP_term_computation <- as.numeric(readline("Specifiy the method to account for evaporation and precipitation (Option: 1. Salinity normalizaton (not applicable for O2 budget); 2. Connect to salinity budget (not applicable for O2 budget)):"))
       }
       
       if (tracer==2){ # NO3 budget 
-        EP_term_computation <- as.numeric(readline("Specifiy the method to account for evaporation and precipation (Opitioin: 1. Salinity normalizaton (not applicable for O2 budget); 2. Connect to salinity budget (not applicable for O2 budget)):"))
+        EP_term_computation <- as.numeric(readline("Specifiy the method to account for evaporation and precipation (Option: 1. Salinity normalizaton (not applicable for O2 budget); 2. Connect to salinity budget (not applicable for O2 budget)):"))
       }
       
       if (tracer==3){ # oxygen budget 
@@ -90,13 +90,13 @@ tracer_budget_toolbox_settings <- function(
       
       if (tracer==4){ # TA budget 
         TA_algorithm <- as.numeric(readline("Specify TA algorithm  (Option: 1. Canyon-B; 2. LIAR; 3. Blend of Canyon-B and LIAR):"))
-        EP_term_computation <- as.numeric(readline("Specifiy the method to account for evaporation and precipitation (Opitioin: 1. Salinity normalizaton (not applicable for O2 budget); 2. Connect to salinity budget (not applicable for O2 budget)):"))
+        EP_term_computation <- as.numeric(readline("Specifiy the method to account for evaporation and precipitation (Option: 1. Salinity normalizaton (not applicable for O2 budget); 2. Connect to salinity budget (not applicable for O2 budget)):"))
       }
       
    
       if (tracer==5){ # POC_bbp budget
         bbp_to_POC_conversion<- as.numeric(readline("Specify the bbp_700-to-POC algorithm? (Option: 1. Briggs et al., (2011); 2. Johnson et al., (2017);):"))
-        EP_term_computation <- as.numeric(readline("Specifiy the method to account for evaporation and precipitation (Opitioin: 1. Salinity normalizaton (not applicable for O2 budget); 2. Connect to salinity budget (not applicable for O2 budget)):"))
+        EP_term_computation <- as.numeric(readline("Specifiy the method to account for evaporation and precipitation (Option: 1. Salinity normalizaton (not applicable for O2 budget); 2. Connect to salinity budget (not applicable for O2 budget)):"))
       }
       
     
@@ -196,10 +196,10 @@ tracer_budget_toolbox_settings <- function(
     
 
     
-    if (    MLD_defination == 1){
-      MLD_defination_print <- "Temperature threshold"
+    if (    MLD_definition == 1){
+      MLD_definition_print <- "Temperature threshold"
     } else{
-      MLD_defination_print <- "Density threshold"
+      MLD_definition_print <- "Density threshold"
     }
     
     
@@ -317,10 +317,10 @@ tracer_budget_toolbox_settings <- function(
 
     
     
-    diapyncal_diffusivity_print  <-  paste( diapyncal_diffusivity,"s m-2",
+    diapycnal_diffusivity_print  <-  paste( diapycnal_diffusivity,"s m-2",
                                              sep=)
     
-    diapyncal_diffusivity =eval(parse(text =  diapyncal_diffusivity))
+    diapycnal_diffusivity =eval(parse(text =  diapycnal_diffusivity))
     
     
     
@@ -362,9 +362,9 @@ tracer_budget_toolbox_settings <- function(
    "tracer",
    "integration_depth",
    "background_correction",
-   "MLD_defination",
+   "MLD_definition",
    "data_smooth_number",
-   "diapyncal_diffusivity",
+   "diapycnal_diffusivity",
    "bbp_to_POC_conversion",
    #  Entrainment_parameterization, 
    "gas_model",
@@ -385,9 +385,9 @@ tracer_budget_toolbox_settings <- function(
               tracer_print,
               integration_depth_print,
               background_correction_print,
-              MLD_defination_print,
+              MLD_definition_print,
               Data_smooth_number,
-              diapyncal_diffusivity_print,
+              diapycnal_diffusivity_print,
             bbp_to_POC_conversion_print,
               #  Entrainment_parameterization, 
               gas_model_print,
@@ -424,9 +424,9 @@ tracer_budget_toolbox_settings <- function(
     tracer,
     integration_depth,
     background_correction,
-    MLD_defination,
+    MLD_definition,
     Data_smooth_number,
-    diapyncal_diffusivity,
+    diapycnal_diffusivity,
     #  Entrainment_parameterization, 
     Gas_model,
     Iterations_uncertainty_simulation ,
@@ -451,9 +451,9 @@ tracer_budget_toolbox_settings <- function(
                                "tracer",
                                "integration_depth",
                                "background_correction",
-                               "MLD_defination",
+                               "MLD_definition",
                                "data_smooth_number", 
-                               "diapyncal_diffusivity",
+                               "diapycnal_diffusivity",
                                #     "entrainment_parameterization",
                                "gas_model",
                                "iterations_uncertainty_simulation",

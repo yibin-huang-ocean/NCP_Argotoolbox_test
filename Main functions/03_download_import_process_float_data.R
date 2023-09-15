@@ -47,7 +47,7 @@ download_import_process_float_data <- function (
   ) # Note: "load_float_data" archived from the ONE-ARGO-R toolbox is slightly modified in 
     # in order to extract the oxygen sensor calibration information 
   
-  # Stop running if the qualified dfloat data archived from GDAC
+  # Stop running if we don't obtain any float data  from GDAC
   if (is.null(float_profile_data)){
     return()
   }
