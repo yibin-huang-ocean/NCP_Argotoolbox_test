@@ -1,3 +1,5 @@
+
+# O2 gas model developed by Wanninkhof et al., (2014)
 O2_flux_Wanni_2014 =function( wind_speed=float_profile_merge$wind_speed,
                               PT=float_profile_merge$temperature,
                               S=float_profile_merge$salinity,

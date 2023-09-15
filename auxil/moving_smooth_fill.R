@@ -1,6 +1,6 @@
 
 
-#### moving smooth data 滑动平均
+#### moving smooth data 
 
 # -------------------------------------------------------------------------
 # Moving smooth data
@@ -22,7 +22,8 @@
 # -------------------------------------------------------------------------
 
 
-
+# keep the original data, which are automatically eliminated when applying 
+# moving_smooth function 
 moving_smooth_fill = function (data,  smooth_number ) {
   library(zoo)
   if (length(data<smooth_number)<smooth_number){
@@ -34,6 +35,7 @@ moving_smooth_fill = function (data,  smooth_number ) {
   return  (median)
   
 }
+
 
 moving_smooth = function (data,  smooth_number ) {
   library(zoo)

@@ -11,10 +11,10 @@ match_DIC_NNGv2LDEO = function ( path,
   chla=nc_open('TCO2_NNGv2LDEO_climatology.nc');  #
   # calculate the time different with each month
 # sensible <-ncvar_get(chla,"DIC_annual_mean")
-  lon=ncvar_get(chla,"longitude")  #更改提取目标变量
-  lat=ncvar_get(chla,"latitude")  #更改提目标变量
-  time=ncvar_get(chla,"time")  #更改提取目标变量
-  depth=ncvar_get(chla,"depth")  #更改提取目标变量
+  lon=ncvar_get(chla,"longitude")  
+  lat=ncvar_get(chla,"latitude")  
+  time=ncvar_get(chla,"time")  
+  depth=ncvar_get(chla,"depth")  
   lon[which.min(  lon)]= -180
   lon[ which.max(  lon)]= 180
   

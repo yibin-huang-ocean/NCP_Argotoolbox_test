@@ -1,8 +1,5 @@
 
 
-
-
-
 create_cycle_data_frame= function(
     WMOID=float_profile_data$WMOID,
     cycle=float_profile_data$cycle,

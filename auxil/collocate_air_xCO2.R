@@ -1,5 +1,5 @@
 
-
+# match the float data with monthly xCO2 dataset
 collocate_air_xCO2=function(
     path_code=    path_code,
     float_date= ancilary_data_per_cycle$date,
@@ -8,7 +8,7 @@ collocate_air_xCO2=function(
   
   
   
-  # create the vector to deposiste the matchup 
+  # create the vector to store the air xCO2 
   xCO2_air= rep(NaN, length(    float_date))
   
   # import the xCO2 dataset

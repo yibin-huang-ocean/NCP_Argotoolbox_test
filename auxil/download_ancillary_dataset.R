@@ -419,13 +419,13 @@ download_ancillary_dataset=function(){
   end_date <- as.Date(Sys.time())
   end_date <- ymd(end_date%m-% months(4)) # ocean color has some delay in updating the most recent data
   
-  # 创建一个空向量来存储生成的网址
   urls <- character()
   
-  # 根据起止日期生成网址
+  # generate the urls for monthly remotely sensed chl-a product (ocean)
+  # according to the temporal range (from year 2010 to the most recent month)
   current_date <- start_date
   while (current_date <= end_date) {
-    # 构建年份、月份的字符串
+   
     year_str <- format(current_date, "%Y")
     month_str <- format(current_date, "%m")
     day_str <- format(current_date, "%d")
@@ -441,13 +441,12 @@ download_ancillary_dataset=function(){
     last_month_str <- format(last_day, "%m")
     last_day_str <- format(last_day, "%d")
     
-    # 构建完整的网址并添加到 urls 向量中
+    
     url <- paste("https://oceandata.sci.gsfc.nasa.gov/cgi/getfile/AQUA_MODIS.",
                  year_str, month_str, day_str, "_", last_year_str, last_month_str, last_day_str, ".L3m.MO.CHL.chlor_a.9km.nc",
                  sep = "")
     urls <- c(urls, url)
     
-    # 增加一个月以继续循环
     current_date <- current_date %m+% months(1)
   }
   
@@ -538,7 +537,9 @@ download_ancillary_dataset=function(){
   # Obtain 
   current_date <- Sys.Date()
   
-  # 检查文件是否存在，如果不存在则创建并写入当前日期
+  # Generate a "date" file if it does not exist 
+  # The "date" record file is to used to prevent from downloading NCEP file repeatly 
+  # within a day. Otherwise, NCEP server may block our IP address 
   if (!file.exists(date_file)) {
     writeLines(as.character(current_date), date_file)
   }

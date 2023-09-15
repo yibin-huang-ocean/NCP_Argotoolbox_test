@@ -1,3 +1,8 @@
+# This function is slightly revised from 
+# the one from One-Argo-R toolbox. The modified function 
+# is capable of extracting the oxygen sensor calibration information 
+# 
+
 load_float_data_revised <- function (float_ids, variables=NULL, float_profs=NULL,format=NULL) {
   
   

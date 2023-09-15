@@ -1,6 +1,6 @@
-# CO2 Solibuility constant (Weiss, 1974)
+# CO2 Solubility constant (Weiss, 1974)
 Ko=function (S,T){  # input : T(°C) and salinity
-  T=T+273.15;  # Conversio from Celsius degrees to Kelvins
+  T=T+273.15;  # Conversion from Celsius degrees to Kelvins
   
   A= c(-60.2409, 93.4517, 23.3585)   #  mol/Kg.atm
   B=c(0.023517,-0.023656, 0.0047036);  # mol/Kg.atm

@@ -1,6 +1,6 @@
 # Moving smooth the profile
 # data need to be interpolated to the depth at every 1m
-# the data should be mannually reorder after using the function
+# the data should be re-order after using the function
 # Author: Yibin Huang | 2021/02/14
 
 moving_smooth_profile=function(   float_data ,

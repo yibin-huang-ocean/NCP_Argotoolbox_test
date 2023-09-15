@@ -1,7 +1,5 @@
 
 
-####将argo的垂直剖面插值 每米
-
 # -------------------------------------------------------------------------
 # Interpolate the profile into the every meter
 #
@@ -98,11 +96,11 @@ Interp_profile = function (float_data,
       # adjust the interpolation depth based on the each profile sampling 
       # depth 
       max_depth_real=max(a[,column_depth]) 
-      depthh=seq( min_depth,       max_depth_real, interval)  # 生成插值的深度序列
+      depthh=seq( min_depth,       max_depth_real, interval)  # generate the depth sequence for each cycle
       
       float_data2=data.frame (press = depthh)  # create the dataframe to store the date
       for (i in (column_variable_start+1): column_variable_end ) {
-        if (    Count_No_NA (a[,i])  > 4 &   min (a[,column_depth],na.rm = T) <=10  )  { ### 确保10m以浅有数据，而且剖面的的非NA的个数大于4个
+        if (    Count_No_NA (a[,i])  > 4 &   min (a[,column_depth],na.rm = T) <=10  )  { ### ensure 1) there is at least one measurement within 10m; 2) the total measurement points should exceeds 4 for entire water column  
           if (       Count_No_NA (a[ which(  a[,column_depth]<=10 )  ,i] )   >0   ){
             variable_target = approx ( a[,column_depth],a[,i], depthh,rule=2 )$y
             
@@ -126,14 +124,14 @@ Interp_profile = function (float_data,
   }
   
   
-  # 合并所有剖面
+  # Merge all the cycles
   float_data1 <-  bind_rows(   my_list)
   rm(my_list)
   
   float_data1=arrange( float_data1, float_data1[,column_profile],  float_data1[,  column_depth]  )
   
   
-  float_data1= filter (float_data1,  float_data1[,column_profile]> -999)  # 提出剖面编号的NA的数据
+  float_data1= filter (float_data1,  float_data1[,column_profile]> -999)  # get rid of NA data
   
   return (float_data1)
   

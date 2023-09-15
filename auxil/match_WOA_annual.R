@@ -10,10 +10,10 @@ match_WOA_annual = function ( path, longitude  ,latitude ,pressure ) {
   chla=nc_open(  annual_file);  
   # calculate the time different with each month
   sensible <-ncvar_get(chla,names (chla$var) [6])
-  lon=ncvar_get(chla,"lon")  #更改提取目标变量
-  lat=ncvar_get(chla,"lat")  #更改提目标变量
-  time=ncvar_get(chla,"time")  #更改提取目标变量
-  depth=ncvar_get(chla,"depth")  #更改提取目标变量
+  lon=ncvar_get(chla,"lon") 
+  lat=ncvar_get(chla,"lat")  
+  time=ncvar_get(chla,"time") 
+  depth=ncvar_get(chla,"depth") 
   
   
   ia=1

@@ -1,5 +1,5 @@
 
-###  Schmidt Number, For water of temperature range 0-30°C
+###  Compute the Schmidt Number 
 Schmidt=function(T,S ){
   A = 2073.1;
   B = 125.62;

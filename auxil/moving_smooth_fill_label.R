@@ -1,3 +1,11 @@
+
+# This function is designed to moving-smooth the float data 
+# over time;
+# The moving-smooth is performed for each subset of data that shares the 
+# same "label";
+# Note: this function will help keep the original data, which are automatically eliminated when applying 
+# moving_smooth function.
+
 moving_smooth_fill_label=function (data=cycle_data$tracer_background_mean_concentration,  
                                    
                                    label= year_North_South( cycle_data$latitude,  cycle_data$date), 
@@ -13,6 +21,8 @@ moving_smooth_fill_label=function (data=cycle_data$tracer_background_mean_concen
   return  (median)
   
 }
+
+
 
 moving_smooth_label=function (data=cycle_data$tracer_background_mean_concentration,  
                                    

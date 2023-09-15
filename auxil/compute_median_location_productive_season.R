@@ -1,7 +1,5 @@
-
-
-
-
+# compute the middle float location during 
+# each growing season 
 compute_median_location_productive_season=function ( cycle=float_profile_data$cycle,
                                                    latitiude =  float_profile_data$latitude_N,
                                            longitude =  float_profile_data$longitude_E,

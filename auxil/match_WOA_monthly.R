@@ -17,9 +17,9 @@ match_WOA_monthly <- function ( path,
   annual_file=   grep("00_",   file_name, value = TRUE)
   chla=nc_open(  annual_file);  #
   sensible_annual <-ncvar_get(chla,names (chla$var) [6])
-  depth_annual=ncvar_get(chla,"depth")  #更改提取目标变量
-  lon_annual=ncvar_get(chla,"lon")  #更改提取目标变量
-  lat_annual=ncvar_get(chla,"lat")  #更改提目标变量
+  depth_annual=ncvar_get(chla,"depth")  
+  lon_annual=ncvar_get(chla,"lon") 
+  lat_annual=ncvar_get(chla,"lat")  
   
   for ( i in 1: length (  year_unique) )  {
     
@@ -32,7 +32,7 @@ match_WOA_monthly <- function ( path,
     
     sensible <-ncvar_get(chla,names (chla$var) [6])
     lon=ncvar_get(chla,"lon")  #更改提取目标变量
-    lat=ncvar_get(chla,"lat")  #更改提目标变量
+    lat=ncvar_get(chla,"lat")  
     lon[lon==179.5]=180
     lon[lon== -179.5]=-180
     time=ncvar_get(chla,"time")  #更改提取目标变量

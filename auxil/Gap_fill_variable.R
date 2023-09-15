@@ -1,4 +1,5 @@
 
+# Gap-fill the missing data based on the linear extrapolation 
 
 Gap_fill_variable = function(depth=float_profile_data$pressure,
               date=float_profile_data$date,

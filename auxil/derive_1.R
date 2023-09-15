@@ -1,6 +1,8 @@
 
-# 差分求导
-derive_1= function (x,y){ # number是几次求导
+# derive the first derivative of the 
+# function with respect to "x"
+
+derive_1= function (x,y){ 
   
   
   

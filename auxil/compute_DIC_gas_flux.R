@@ -1,6 +1,6 @@
 
-
-
+# compute the CO2 air-sea gas flux
+# required function: CO2_gas_model
 compute_DIC_gas_flux <- function ( cycle=cycle,
                                    temperature=temperature,
                                    salinity=salinity,

@@ -39,7 +39,7 @@ match_monthly_ocean_color <- function ( path= paste( Model_setting_list$path_NCP
           latt <- max ( which (lat>= latitude[ia]  ))
           
           
-          match[ia] <- (( sensible[lonn,latt])) # W m-2
+          match[ia] <- (( sensible[lonn,latt])) #
           
           
         }
@@ -56,14 +56,7 @@ match_monthly_ocean_color <- function ( path= paste( Model_setting_list$path_NCP
   }
   
   
-  
-  #  nc_close(chla)
-  # rm(    sensible)
-  
-  
-  
-  
-  
+
   
   return(match)
   

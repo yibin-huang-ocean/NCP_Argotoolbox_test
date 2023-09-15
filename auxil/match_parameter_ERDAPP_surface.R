@@ -16,7 +16,7 @@ match_parameter_ERDAPP_surface=function(
   parameter_match= rep(NaN,length(date))
   dataInfo <- rerddap::info(dataset, url)
   dataInfo
-  # 步骤二：设置提取数据
+  # Extract the variable information 
   parameter <-     parameter_name
   i=1
   for (i in 1:length(date)){

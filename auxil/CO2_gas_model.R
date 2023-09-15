@@ -1,4 +1,4 @@
-
+#  CO2 gas flux model
 CO2_gas_model =function( wind_speed=float_profile_merge$wind_speed,
                                temperature=float_profile_merge$temperature,
                                salinity=float_profile_merge$salinity,

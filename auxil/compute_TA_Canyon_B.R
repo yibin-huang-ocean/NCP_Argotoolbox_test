@@ -1,4 +1,5 @@
-
+# Compute the total alkalinity concentration
+# using the Canyon-B machining learning algorithm 
 compute_TA_Canyon_B= function(date=float_profile_data$date,
                               latitude=float_profile_data$latitude, 
                               longitude=float_profile_data$longitude, 

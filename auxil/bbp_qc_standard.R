@@ -15,7 +15,7 @@
 #   Step 3: get rid of Bad dark offset test
 #   1. 5-point median filter: BBP700_smooth = median_filter(5, BBP700)
 #   2. If min(BBP700_smooth) < -0.000025 m-1， QC_THRESHOLD_700 = -20*min(BBP700_smooth) 
-#   3.  如果  BBP700 < QC_THRESHOLD_700 ，设置NaN 
+#   3.  Set BBP700 to NaN if it is smaller than QC_THRESHOLD_700 
 
 
 bbp_qc_standard=function( cycle=float_profile_data$CYCLE_NUMBER,
@@ -27,16 +27,16 @@ bbp_qc_standard=function( cycle=float_profile_data$CYCLE_NUMBER,
     float_data<- data.frame(cycle=cycle,
                                pressure=        pressure,
                                bbp_raw=      bbp_raw)   
-    float_data_original <-  float_data # 保留原始剖面，用于最后的merge
+    float_data_original <-  float_data # Retain the original profile
     
     
-    if ( all(is.na( float_data$bbp_raw))  )  {   #2 如果不存在bbp，就不执行质控
+    if ( all(is.na( float_data$bbp_raw))  )  {   #2 stop QC if there is no bbp data
       
       float_data_original=float_data
     } #2
     
   
-    if ( !all(is.na(float_data$bbp_raw))  )  { #3 只有存在bbp的数据的时候开始质控
+    if ( !all(is.na(float_data$bbp_raw))  )  { #3 continue QC if bbp data is available
       
       # Step 2 : Remove the data out of realistic range--------------------------------------------------
       
@@ -132,7 +132,7 @@ bbp_qc_standard=function( cycle=float_profile_data$CYCLE_NUMBER,
       )
       new_float_data$bbp_qc= float_data$bbp_final_qc
       
-      # Step 6: merge 到原来剖面  -------------------------------------------------------
+      # Step 6: Merge the qc bbp data into the original float data file -------------------------------------------------------
       float_data_original$label=paste(float_data_original$cycle,
                                  pressure=float_data_original$pressure
       )
@@ -142,7 +142,7 @@ bbp_qc_standard=function( cycle=float_profile_data$CYCLE_NUMBER,
                                new_float_data,by="label")
       
       
-    }   # 3 # 从导入数据开始
+    }   # 3 Bracekt for " if ( !all(is.na(float_data$bbp_raw))"
     
     
     return(      float_data_original$bbp_qc)
