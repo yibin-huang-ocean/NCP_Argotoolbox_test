@@ -99,7 +99,8 @@ compute_five_terms_tracer_budget <- function(
   
   
   MLD_change_rate= data.frame(cycle= cycle_data$cycle,
-                         MLD_change_rate=cycle_data$MLD_change_rate)
+                         MLD_change_rate=cycle_data$MLD_change_rate,
+                         MLD_change=cycle_data$MLD_change)
   float_profile_merge=left_join( float_profile_merge,     MLD_change_rate, "cycle")
 
   float_profile_merge =arrange(  float_profile_merge ,  
