@@ -303,7 +303,7 @@ compute_five_terms_tracer_budget <- function(
                         date=cycle_data$date,
                         time= Convert_matlabtime( cycle_data$date),
                         integration_depth=cycle_data$   integration_depth,
-                        mean_tracer_concentration=   cycle_data$tracer,
+                        mean_tracer_concentration=   cycle_data$tracer_mean_concentration,
                         tracer_inventory_change_rate=cycle_data$tracer_inventory_change_rate,
                         tracer_background_inventory_change_rate= cycle_data$tracer_background_inventory_change_rate,
                         entrainment= cycle_data$entrainment,
