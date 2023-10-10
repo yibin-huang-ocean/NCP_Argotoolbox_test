@@ -366,11 +366,10 @@ Perform_tracer_budget <- function(
                             Bio_error_mmol_m2_d1=matrixStats::rowSds(      Bio,na.rm=T))
   
   # Add the information about the reference location if users select the background correction method 3
-  if (Model_setting_list$background_correction==3){
-    tracer_budget$latitude_median_PS_N= tracer_budget$latitude_median_PS
-    tracer_budget$season_label=tracer_budget$season_label
-  } else{
-    tracer_budget$latitude_median_PS_N= "Not applicable"
+  if (Model_setting_list$background_correction!=3){
+  
+    tracer_budget$latitude_reference_PS_N= "Not applicable"
+    tracer_budget$longitude_reference_PS_E= "Not applicable"
     tracer_budget$season_label= "Not applicable"
   }
 

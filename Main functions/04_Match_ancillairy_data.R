@@ -162,7 +162,7 @@ Match_ancillary_data <- function( float_profile_data=float_profile_data,
   
   # Step 3: Collocate with the tracer background gradient 
   
-  ancilary_data_per_cycle$Kz_m2_s1=  Model_setting_list$diapyncal_diffusivity
+  ancilary_data_per_cycle$Kz_m2_s1=  Model_setting_list$diapycnal_diffusivity
   
   
   
@@ -302,7 +302,7 @@ Match_ancillary_data <- function( float_profile_data=float_profile_data,
                              pressure=     float_profile_data$pressure_m,
                              temperature=      float_profile_data $temperature_C,
                              salinity =     float_profile_data$salinity,
-                             method=Model_setting_list$MLD_defination  )
+                             method=Model_setting_list$MLD_definition  )
   
   # Gap-fill MLD
   
@@ -428,7 +428,7 @@ Match_ancillary_data <- function( float_profile_data=float_profile_data,
       float_profile_data$temperature_background_reference_location_C=0
       
       
-      print("start to collocate with the salinity background product")
+      print("Start to collocate with the salinity background product")
       
       float_profile_data$salinity_background <- match_WOA_annual(path= paste( Model_setting_list$path_NCP_toolbox,  
                                                                               "Ancillary data and toolbox/Ancilary data/WOA2018/salinity", sep="") ,
@@ -438,7 +438,7 @@ Match_ancillary_data <- function( float_profile_data=float_profile_data,
       
       print("Success in salinity background matchup")
       
-      print("start to collocate with the temperature background product")
+      print("Start to collocate with the temperature background product")
       
       float_profile_data$temperature_background_C <- match_WOA_annual(path= paste( Model_setting_list$path_NCP_toolbox,  
                                                                                    "Ancillary data and toolbox/Ancilary data/WOA2018/temperature", sep="") ,
@@ -451,7 +451,7 @@ Match_ancillary_data <- function( float_profile_data=float_profile_data,
       
       # Match to the differnt tracer bakcground gradient 
       if (Model_setting_list$tracer==2){ # NO3 
-        print("start to collocate with the NO3 background product")
+        print("Start to collocate with the NO3 background product")
         float_profile_data$tracer_background_umol_kg <- match_WOA_annual(path= paste( Model_setting_list$path_NCP_toolbox,  
                                                                                       "Ancillary data and toolbox/Ancilary data/WOA2018/no3", sep="") ,
                                                                          longitude=  float_profile_data$longitude_E,
@@ -463,7 +463,7 @@ Match_ancillary_data <- function( float_profile_data=float_profile_data,
       
       
       if (Model_setting_list$tracer==1){ # DIC
-        print("start to collocate with the DIC background product")
+        print("Start to collocate with the DIC background product")
         
         float_profile_data$tracer_background_umol_kg <-match_DIC_NNGv2LDEO(path= paste( Model_setting_list$path_NCP_toolbox,  
                                                                                         "Ancillary data and toolbox/Ancilary data/DIC", sep="") ,
@@ -478,7 +478,7 @@ Match_ancillary_data <- function( float_profile_data=float_profile_data,
       
       
       if (Model_setting_list$tracer==4){ # TA 
-        print("start to collocate with the TA background product")
+        print("Start to collocate with the TA background product")
         float_profile_data$tracer_background_umol_kg <- match_TA_NNGv2LDEO(path= paste( Model_setting_list$path_NCP_toolbox,  
                                                                                         "Ancillary data and toolbox/Ancilary data/TA", sep="") ,
                                                                                        longitude= float_profile_data$longitude_E,
@@ -505,7 +505,7 @@ Match_ancillary_data <- function( float_profile_data=float_profile_data,
     
     
     
-    print("start to collocate with the salinity background product")
+    print("Start to collocate with the salinity background product")
     
     float_profile_data$salinity_background <- match_WOA_monthly (path= paste( Model_setting_list$path_NCP_toolbox,  
                                                                               "Ancillary data and toolbox/Ancilary data/WOA2018/salinity", sep="") ,
@@ -524,7 +524,7 @@ Match_ancillary_data <- function( float_profile_data=float_profile_data,
     
     print("Success in salinity background matchup")
     
-    print("start to collocate with the temperature background product")
+    print("Start to collocate with the temperature background product")
     
     float_profile_data$temperature_background_C <- match_WOA_monthly(path= paste( Model_setting_list$path_NCP_toolbox,  
                                                                                   "Ancillary data and toolbox/Ancilary data/WOA2018/temperature", sep="") ,
@@ -545,7 +545,7 @@ Match_ancillary_data <- function( float_profile_data=float_profile_data,
     
     # Match to the different tracer background gradient 
     if (Model_setting_list$tracer==2){ # NO3 
-      print("start to collocate with the NO3 background product")
+      print("Start to collocate with the NO3 background product")
       float_profile_data$tracer_background_umol_kg <- match_WOA_monthly(path= paste( Model_setting_list$path_NCP_toolbox,  
                                                                                      "Ancillary data and toolbox/Ancilary data/WOA2018/no3", sep="") ,
                                                                         date=float_profile_data$date,
@@ -566,7 +566,7 @@ Match_ancillary_data <- function( float_profile_data=float_profile_data,
     
     
     if (Model_setting_list$tracer==1){ # DIC
-      print("start to collocate with the DIC background product")
+      print("Start to collocate with the DIC background product")
       
       float_profile_data$tracer_background_umol_kg <- match_DIC_NNGv2LDEO(path= paste( Model_setting_list$path_NCP_toolbox,  
                                                                                        "Ancillary data and toolbox/Ancilary data/DIC", sep="") ,
@@ -589,7 +589,7 @@ Match_ancillary_data <- function( float_profile_data=float_profile_data,
     
     
     if (Model_setting_list$tracer==4){ # TA 
-      print("start to collocate with the TA background product")
+      print("Start to collocate with the TA background product")
       float_profile_data$tracer_background_umol_kg <- match_TA_NNGv2LDEO(path= paste( Model_setting_list$path_NCP_toolbox,  
                                                                                       "Ancillary data and toolbox/Ancilary data/TA", sep="") ,
                                                                          longitude= float_profile_data$longitude_E,
