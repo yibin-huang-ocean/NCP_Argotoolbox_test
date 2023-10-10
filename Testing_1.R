@@ -21,7 +21,7 @@ cat("\014")
 rm(list = ls())
 
 # Step 1: Specify the root path of tracer budget toolbox and appkey_Earthda--------------------------
-root_path_tracer_budget_toolbox<- "/Users/yibinhuang/Desktop/Yibin /NASA EXPORT/code/my code/tracer budget  toolbox/Tracer budget toolbox/"
+root_path_tracer_budget_toolbox<- ""
 appkey_Earthdata <- "069271272ca0a0af44726d603a730a4c1c5c6cfe"
 # copy the APPKEY archived from NASA EARTHDATA website at https://oceandata.sci.gsfc.nasa.gov/appkey/
 # This appkey is required to download the remotely sensed chl data from Ocean Color Data 
@@ -112,12 +112,14 @@ testing_record=data.frame(WMOID=NaN,
                           model_output=NaN
                           )
 
-# test 1:  different floats
+
 i=1
 ii=1
 iii=1
 iiii=1
 iiiii=1
+
+# test 1:  different floats
 for (i in 1:length(float_list)){
   
  # test 2:  different tracers choices
