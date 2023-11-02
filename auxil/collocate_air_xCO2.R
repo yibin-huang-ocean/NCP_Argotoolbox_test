@@ -7,7 +7,8 @@ collocate_air_xCO2=function(
     float_longitude=     ancilary_data_per_cycle$longitude){
   
   
-  
+  # Define the end year of xCO2 dataset
+  data_start_year=2022
   # create the vector to store the air xCO2 
   xCO2_air= rep(NaN, length(    float_date))
   
@@ -17,40 +18,41 @@ collocate_air_xCO2=function(
   pco2_air_MPL$year=  year( Convert_matlabtime( pco2_air_MPL$date))
   pco2_air_MPL$month=month( Convert_matlabtime( pco2_air_MPL$date))
   
- 
- # Extract the float sampling date 
+  
+  # Extract the float sampling date 
   float_time=Convert_matlabtime(float_date)
   float_year=year(    float_time)
   float_month=month(     float_time)
   
+  
   i=1
   for (i in seq(length(  float_time))){
     
-    if (  float_year[i]<= 2020 | float_year[i]<=2005){
+    if (  float_year[i]<=  data_start_year | float_year[i]<=2005){
       
       xCO2_air_latitude_band=filter(pco2_air_MPL,
                                     pco2_air_MPL$year==float_year[i]  &
                                       pco2_air_MPL$month==float_month[i]  
       )
       
-    } else{ # since the xCO2 data is only available before 2021,  
+    } else{ # since the xCO2 data is only available before 2022,  
       # we gap-fill the XCO2 in other calendar years by assuming the annual change in air XCO2 approximating 2.2 uatm
       xCO2_air_latitude_band=filter(pco2_air_MPL,
-                                    pco2_air_MPL$year==2020  &
+                                    pco2_air_MPL$year==  data_start_year  &
                                       pco2_air_MPL$month==float_month[i]  
       )
       
-      xCO2_air_latitude_band$xco2_air=    xCO2_air_latitude_band$xco2_air + 2.2 *(float_year[i]-2020)
+      xCO2_air_latitude_band$xco2_air=    xCO2_air_latitude_band$xco2_air + 2.2 *(float_year[i]-  data_start_year)
     } # loop for "else{ "
-   
     
-   xCO2_air[i]=approx  ( xCO2_air_latitude_band$lat,
-                         xCO2_air_latitude_band$xco2_air, 
-                                   float_latitude[i] ,rule=2 )$y
+    
+    xCO2_air[i]=approx  ( xCO2_air_latitude_band$lat,
+                          xCO2_air_latitude_band$xco2_air, 
+                          float_latitude[i] ,rule=2 )$y
     
   } # Bracket for "for (i in seq(lengt"
   
-
+  
   return( xCO2_air)
   
 }
