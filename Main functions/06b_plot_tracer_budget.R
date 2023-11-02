@@ -85,13 +85,13 @@ plot_tracer_budget=function(tracer_budget,
                               aes(x=tracer_budget$time, 
                                   ymin= tracer_budget$vertical_diffusion_mmol_m2_d1+   
                                     tracer_budget$vertical_advection_mmol_m2_d1+
-                                    tracer_budget$entrainment_mmol_m2_d1 -sqrt( tracer_budget$vertical_diffusion_error_mmol_m2_d1+   
+                                    tracer_budget$entrainment_mmol_m2_d1 -sqrt( tracer_budget$vertical_diffusion_error_mmol_m2_d1^2+   
                                            tracer_budget$vertical_advection_error_mmol_m2_d1^2+
                                            tracer_budget$entrainment_error_mmol_m2_d1^2),
                                   
                                   ymax= tracer_budget$vertical_diffusion_mmol_m2_d1+   
                                     tracer_budget$vertical_advection_mmol_m2_d1+
-                                    tracer_budget$entrainment_mmol_m2_d1+sqrt( tracer_budget$vertical_diffusion_error_mmol_m2_d1+   
+                                    tracer_budget$entrainment_mmol_m2_d1+sqrt( tracer_budget$vertical_diffusion_error_mmol_m2_d1^2+   
                                        tracer_budget$vertical_advection_error_mmol_m2_d1^2+
                                        tracer_budget$entrainment_error_mmol_m2_d1^2),
                               
