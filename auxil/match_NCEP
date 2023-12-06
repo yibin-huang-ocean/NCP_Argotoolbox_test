@@ -1,0 +1,60 @@
+# 12/04/2023: MC//HF Add special case for 31 December
+# 12/04/2023: MC/HF Add warning back when the NCEP does not contain float sampling time period
+# 11/29/2023: MC/HF Merge previous match_NCEP_II_local, match_NCEP_I_surface, match_NCEP_II_surface into one
+# 11/29/2023: MC/HF change the lon/lat match with the closest value, instead of positive only
+# 11/08/2023: MC/HF round the time to the nearest midnight
+match_NCEP <- function ( path, date ,longitude,latitude,variable) {
+  match= rep(NaN,length(date))
+  setwd(path)
+  file_name_all=dir()
+  
+  # MC: 12/04/2023 check if there is a 31/12 afternoon in the date
+  date_converted<-as.POSIXct((date-1)*86400, origin = "0000-01-01 00:00", tz = "UTC")
+  dec_31<-which(as.numeric(paste(substr(date_converted,6,7)))==12 &
+                  as.numeric(paste(substr(date_converted,9,10)))==31 & 
+                  as.numeric(paste(substr(date_converted,12,13)))>12)
+  date_converted[dec_31]<-date_converted[dec_31]+0.5
+  year = year(date_converted)
+  
+  year_unique <- unique (year)
+  i=1
+  for ( i in 1: length (  year_unique) )  {
+    file_name_open <-  grep(  year_unique[i],  
+                              file_name_all, 
+                              value = TRUE)
+    # open the file  and extract the variables
+    file=nc_open(file_name_open);
+    var <- ncvar_get(file,variable)
+    lon = ncvar_get(file,"lon")
+    lat = ncvar_get(file,"lat")
+    time = ncvar_get(file,"time")
+    year_line = which (year== year_unique[i] )
+    
+    for (ia in  year_line ) {
+      
+      date_round<-round_date(as.POSIXct((date[ia]-1)*86400, origin = "0000-01-01 00:00", tz = "UTC"),unit="day") # MC 11/08/2023: convert the time to posicxt and round to the closest midnight
+      time_difference <- yday ( date_round)   # calculate the time difference
+      if (length(time)>      time_difference){ # Ensure the NCEP product contains the float sampling time period
+        
+        if (longitude[ia] <=0){
+          lonn <- which.min(abs(lon - longitude[ia]+360)) # MC: 11/29/2023
+        } else{
+          lonn <- which.min(abs(lon - longitude[ia])) # MC: 11/29/2023
+        }
+        latt <- which.min(abs(lat - latitude[ia] ))
+        match[ia] <- mean (var[lonn,latt, time_difference]) # W m-2
+        
+      } else { # Bracket for " if (length(time)>      time_difference)"
+      warning(paste("NCEP data for",variable,"requested for", date_round,
+                    "but last available day is",
+                    as.Date(length(time)-1, 
+                            origin = paste0(year_unique[i],"-01-01"))))
+        } 
+    }
+    nc_close(file)
+    rm(var)
+  }
+  
+  return(match)
+  
+}
