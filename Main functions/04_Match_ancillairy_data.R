@@ -1,16 +1,16 @@
-
+# 11/29/2023: MC/HF Change the NCEP matchup with unique function match_NCEP 
 Match_ancillary_data <- function( float_profile_data=float_profile_data,
                                   Model_setting_list =  Model_setting_list){
   # DESCRIPTION:
   # This function returns a data.frame containing the processed float data with paired ancillary parameters.
   
-  # PREREQUISITE FUNCTIONS (auxiliary functions deposited in the file named "auxi"):
+  # PREREQUISITE FUNCTIONS (auxiliary functions deposited in the file named "auxil"):
   # compute_median_location_productive_season
   # match_WOA_annual
   # match_DIC_NNGv2LDEO
   # match_TA_NNGv2LDEO
   # Convert_matlabtime
-  # match_NCEP_II_NCP_toolbox
+  # match_NCEP
   # compute_MLD
   # match_monthly_climatology_ocean_color
   # match_annual_ocean_color
@@ -55,43 +55,37 @@ Match_ancillary_data <- function( float_profile_data=float_profile_data,
     
     print("Start matching up with U-wind speed")
     
-    U_wind<- match_NCEP_NCP_toolbox ( path= paste( Model_setting_list$path_NCP_toolbox,  
-                                                      "Ancillary data and toolbox/Ancilary data/NCEP_II/uwind", sep="") ,
-                                         
-                                         date =   ancilary_data_per_cycle$date,
-                                         longitude=   ancilary_data_per_cycle$longitude,
-                                         latitude=   ancilary_data_per_cycle$latitude, 
-                                       #  file_location,
-                                         variable='uwnd.10m',
-                                         level="gaussian")
+    U_wind<- match_NCEP ( path= paste( Model_setting_list$path_NCP_toolbox,  
+                                       "Ancillary data and toolbox/Ancilary data/NCEP_II/uwind", sep="") ,
+                          
+                          date =   ancilary_data_per_cycle$date,
+                          longitude=   ancilary_data_per_cycle$longitude,
+                          latitude=   ancilary_data_per_cycle$latitude, 
+                          variable='uwnd') # 11/29/2023: MC remlace the match_NCEP_NCP by match_NCEP
     
     print("Success in U_wind matchup")
     
     print("Start matching up with V-wind speed")
-    V_wind <- match_NCEP_NCP_toolbox( path= paste( Model_setting_list$path_NCP_toolbox,  
-                                                      "Ancillary data and toolbox/Ancilary data/NCEP_II/vwind", sep="") ,
-                                         
-                                         date =   ancilary_data_per_cycle$date,
-                                         longitude=   ancilary_data_per_cycle$longitude,
-                                         latitude=   ancilary_data_per_cycle$latitude, 
-                                      #   file_location,
-                                         variable='vwnd.10m',
-                                         level="gaussian")
+    V_wind <- match_NCEP ( path= paste( Model_setting_list$path_NCP_toolbox,  
+                                        "Ancillary data and toolbox/Ancilary data/NCEP_II/vwind", sep="") ,
+                           
+                           date =   ancilary_data_per_cycle$date,
+                           longitude=   ancilary_data_per_cycle$longitude,
+                           latitude=   ancilary_data_per_cycle$latitude, 
+                           variable='vwnd') # 11/29/2023: MC replace the match_NCEP_NCP by match_NCEP
     
     print("Success in V_wind matchup")
     
     ancilary_data_per_cycle$wind_speed_m_s <-   as.numeric(sqrt( U_wind^2+   V_wind ^2))
     
     # Obtain the sea-level pressure 
-    ancilary_data_per_cycle$sea_level_pressure_Pa <- match_NCEP_NCP_toolbox ( path= paste( Model_setting_list$path_NCP_toolbox,  
+    ancilary_data_per_cycle$sea_level_pressure_Pa <- match_NCEP( path= paste( Model_setting_list$path_NCP_toolbox,  
                                                                                               "Ancillary data and toolbox/Ancilary data/NCEP_II/sea-level pressure", sep="") ,
                                                                                  
                                                                                  date =   ancilary_data_per_cycle$date,
                                                                                  longitude=   ancilary_data_per_cycle$longitude,
                                                                                  latitude=   ancilary_data_per_cycle$latitude, 
-                                                                              #   file_location,
-                                                                                 variable='slp',
-                                                                                 level="surface")
+                                                                                 variable='mslp') # 11/29/2023: MC replace the match_NCEP_NCP by match_NCEP
     
     
     
@@ -101,15 +95,13 @@ Match_ancillary_data <- function( float_profile_data=float_profile_data,
     # # Obtain the sea ice coverage -------------------------------------------
     
     
-   ancilary_data_per_cycle$ice_coverage_percent <-  match_NCEP_NCP_toolbox ( path= paste( Model_setting_list$path_NCP_toolbox,  
+   ancilary_data_per_cycle$ice_coverage_percent <-  match_NCEP ( path= paste( Model_setting_list$path_NCP_toolbox,  
                                                                                                 "Ancillary data and toolbox/Ancilary data/NCEP_II/Ice coverage", sep="") ,
                                                                                    
                                                                                    date =   ancilary_data_per_cycle$date,
                                                                                    longitude=   ancilary_data_per_cycle$longitude,
                                                                                    latitude=   ancilary_data_per_cycle$latitude, 
-                                                                                  # file_location,
-                                                                                   variable='icec.sfc',
-                                                                                   level="gaussian" )
+                                                                                   variable='icec') # 11/29/2023: MC replace the match_NCEP_NCP by match_NCEP
       
     
     print("Success in ice coverage  matchup")
@@ -123,15 +115,13 @@ Match_ancillary_data <- function( float_profile_data=float_profile_data,
   if ( Model_setting_list$tracer==1){
     
     # Obtain the relative humidity 
-    ancilary_data_per_cycle$relative_humidity_percent <- match_NCEP_NCP_toolbox ( path= paste( Model_setting_list$path_NCP_toolbox,  
+    ancilary_data_per_cycle$relative_humidity_percent <- match_NCEP( path= paste( Model_setting_list$path_NCP_toolbox,  
                                                                                                   "Ancillary data and toolbox/Ancilary data/NCEP_II/relative humidity_NCEP_I", sep="") ,
                                                                                      
                                                                                      date =   ancilary_data_per_cycle$date,
                                                                                      longitude=   ancilary_data_per_cycle$longitude,
                                                                                      latitude=   ancilary_data_per_cycle$latitude, 
-                                                                                #     file_location,
-                                                                                     variable='rhum.sig995',
-                                                                                     level="surface")
+                                                                                     variable='rhum')# 11/29/2023: MC replace the match_NCEP_NCP by match_NCEP
     
     
     
@@ -647,7 +637,3 @@ Match_ancillary_data <- function( float_profile_data=float_profile_data,
   
   
 } # Bracket for  "Match_ancillary_data <- function"
-
-
-
-
